@@ -69,13 +69,18 @@ function App() {
 let [money,setMoney] = useState(24.43)
 return (
     <div className="App">
-    <h1 id="money">{money}$</h1>
+    <h4 id="money">{money}$</h4>
+    <div className="runners">
       <h1 id='x'>Connecting</h1>
       <h1 id='y'></h1>
+      </div>
+      <div className="inputs">
       <input type='number' id="moneyPlaced"/>
       <button id="bet" onClick={()=>onBet(money,setMoney)}>bet</button>
+      </div>
+      <div className='msg'>
       <h1 id="messages"></h1>
-
+      </div>
     </div>
   );
 }
