@@ -12,12 +12,13 @@ socket.on("getX",data=>{
   }
 })
 function App() {
+  let money = 10.00;
   return (
     <div className="App">
+    <h1 id="money">{money} $</h1>
       <h1 id='x'>hello bro</h1>
       <h1 id='y'></h1>
       <button id="bet">bet</button>
-      
     </div>
   );
 }
