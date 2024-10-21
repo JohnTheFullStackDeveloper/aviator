@@ -11,8 +11,8 @@ socket.on("getX",data=>{
   document.getElementById("x").innerText = data
   }
 })
+let money = 10.11;
 function App() {
-  let money = 10.00;
   return (
     <div className="App">
     <h1 id="money">{money} $</h1>
