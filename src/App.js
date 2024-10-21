@@ -11,8 +11,9 @@ let messages;
 socket.on("getX",data=>{ 
   if(data == "gone"){
     isGameRunning = false;
-    PlayingBet = 0
     document.getElementById("bet").innerText = "Bet"
+    messages.innerText = "you lose "+PlayingBet
+    PlayingBet = 0
     winning = 0
     isBet = false
     document.getElementById("y").innerText = data
