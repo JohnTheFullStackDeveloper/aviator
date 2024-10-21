@@ -12,7 +12,9 @@ socket.on("getX",data=>{
   if(data == "gone"){
     isGameRunning = false;
     document.getElementById("bet").innerText = "Bet"
+    if(PlayingBet >= 0){
     messages.innerText = "you lose "+PlayingBet
+    }
     PlayingBet = 0
     winning = 0
     isBet = false
