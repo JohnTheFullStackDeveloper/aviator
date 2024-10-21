@@ -10,9 +10,10 @@ const socket = io('https://check-t8r7.onrender.com')
 let messages;
 socket.on("getX",data=>{ 
   if(data == "gone"){
+    messages = document.getElementById("messages")
     isGameRunning = false;
     document.getElementById("bet").innerText = "Bet"
-    if(PlayingBet >= 0){
+    if(PlayingBet > 0){
     messages.innerText = "you lose "+PlayingBet
     }
     PlayingBet = 0
@@ -32,8 +33,8 @@ socket.on("getX",data=>{
   }
 })
 function onBet(money,setMoney){
-  messages = document.getElementById("messages")
-  if(isBet){
+    messages = document.getElementById("messages")
+    if(isBet){
     setMoney(Number((money+winning).toFixed(2)))
     document.getElementById("bet").innerText = "Bet"
     PlayingBet = 0
