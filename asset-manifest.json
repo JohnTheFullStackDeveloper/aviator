@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/aviator/static/css/main.f855e6bc.css",
-    "main.js": "/aviator/static/js/main.c394b891.js",
+    "main.js": "/aviator/static/js/main.089109d7.js",
     "static/js/453.e4a7d8e7.chunk.js": "/aviator/static/js/453.e4a7d8e7.chunk.js",
     "static/media/logo.svg": "/aviator/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
     "index.html": "/aviator/index.html",
     "main.f855e6bc.css.map": "/aviator/static/css/main.f855e6bc.css.map",
-    "main.c394b891.js.map": "/aviator/static/js/main.c394b891.js.map",
+    "main.089109d7.js.map": "/aviator/static/js/main.089109d7.js.map",
     "453.e4a7d8e7.chunk.js.map": "/aviator/static/js/453.e4a7d8e7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.f855e6bc.css",
-    "static/js/main.c394b891.js"
+    "static/js/main.089109d7.js"
   ]
 }
