@@ -27,6 +27,7 @@ export const Auth= ()=>{
     })
     return (
         <HashRouter>
+
             <Link id={"toGame"} to={"/a/aviator" }></Link>
             <Link id={"toLogin"} to={"/a/login"}></Link>
             <Routes>
