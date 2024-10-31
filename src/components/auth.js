@@ -30,9 +30,9 @@ export const Auth= ()=>{
             <Link id={"toGame"} to={"/"}></Link>
             <Link id={"toLogin"} to={"/login"}></Link>
             <Routes>
-                <Route path="/aviator" element={<GamePage/>}/>
-                <Route path="/aviator/login" element={<Login/>} />
-                <Route path="/aviator/register" element={<Register/>} />
+                <Route path="/" element={<GamePage/>}/>
+                <Route path="/login" element={<Login/>} />
+                <Route path="/register" element={<Register/>} />
             </Routes>
         </BrowserRouter>
     )
