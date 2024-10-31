@@ -65,8 +65,13 @@ const Header = ()=>{
         setBet(10)
     }
     const sOut = ()=>{
-        console.log("signOut")
-        signOut(auth)
+
+        signOut(auth).then((user)=>{
+            console.log("signOut")
+        }).catch(err=>{
+            console.log(err)
+        })
+
     }
     return (
         <div>
