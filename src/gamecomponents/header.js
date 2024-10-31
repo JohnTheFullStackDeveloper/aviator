@@ -7,6 +7,7 @@ import {signOut} from "firebase/auth";
 import img from './signout.png'
 import './cssforgame.css'
 import {Socket} from "../components/auth";
+import {Link} from "react-router-dom";
 const Header = ()=>{
     const [name,setName]=useState('')
     const [money,setMoney]=useState(0)
@@ -68,6 +69,7 @@ const Header = ()=>{
 
         signOut(auth).then((user)=>{
             console.log("signOut")
+            document.getElementById("toLogin").click();
         }).catch(err=>{
             console.log(err)
         })
@@ -77,6 +79,7 @@ const Header = ()=>{
         <div>
         <ToastContainer closeButton={false}/>
         <div className="form">
+            <Link id={"toLogin"} to={"#/login"}
             <div className={"details"}>
                 <div>{"‎ "}</div>
             <div className="name">{name}</div>
@@ -103,7 +106,7 @@ const Header = ()=>{
                 </div>
                 <button id="placeBet">Place Bet</button>
             </div>
-            <img className={"signOut"} src={img} alt={"signOut"} onClick={sOut}></img>
+            <img className={"signOut"} src={img} alt={"signOut"} onClick={sOut} />
         </div>
         </div>
     )
