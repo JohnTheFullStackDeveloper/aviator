@@ -79,7 +79,7 @@ const Header = ()=>{
         <div>
         <ToastContainer closeButton={false}/>
         <div className="form">
-            <Link id={"toLogin"} to={"#/login"}
+            <Link id={"toLogin"} to={"/a/login"}/>
             <div className={"details"}>
                 <div>{"‎ "}</div>
             <div className="name">{name}</div>
@@ -106,7 +106,7 @@ const Header = ()=>{
                 </div>
                 <button id="placeBet">Place Bet</button>
             </div>
-            <img className={"signOut"} src={img} alt={"signOut"} onClick={sOut} />
+            <img className={"signOut"} src={img} alt={"signOut"} onClick={sOut}/>
         </div>
         </div>
     )
