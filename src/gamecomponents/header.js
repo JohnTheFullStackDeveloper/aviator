@@ -64,6 +64,9 @@ const Header = ()=>{
     const tenBet = ()=>{
         setBet(10)
     }
+    const sOut = ()=>{
+        signOut(auth)
+    }
     return (
         <div>
         <ToastContainer closeButton={false}/>
@@ -94,7 +97,7 @@ const Header = ()=>{
                 </div>
                 <button id="placeBet">Place Bet</button>
             </div>
-            <img className={"signOut"} src={img} alt={"signOut"} onClick={()=>signOut(auth)}></img>
+            <img className={"signOut"} src={img} alt={"signOut"} onClick={sOut}></img>
         </div>
         </div>
     )
