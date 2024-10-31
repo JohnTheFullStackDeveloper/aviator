@@ -39,7 +39,7 @@ const Login = ()=>{
                     <div className={"checkBox"}><input onChange={(e) => showHide(e)} type="checkbox"/></div>
                 </div>
                 <button onClick={login}>Log In</button>
-                <span>Don't have an account?<Link to={"/a/register"}>register</Link></span>
+                <span>Don't have an account?<Link to={"/register"}>register</Link></span>
             </div>
         </div>
     )

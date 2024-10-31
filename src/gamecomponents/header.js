@@ -79,7 +79,7 @@ const Header = ()=>{
         <div>
         <ToastContainer closeButton={false}/>
         <div className="form">
-            <Link id={"toLogin"} to={"/a/login"}/>
+            <Link id={"toLogin"} to={"/login"}/>
             <div className={"details"}>
                 <div>{"‎ "}</div>
             <div className="name">{name}</div>

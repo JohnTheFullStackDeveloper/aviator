@@ -43,7 +43,7 @@ const Register = () => {
                 <input type={type} placeholder="Password" onChange={(e)=>{setPassword(e.target.value)}} required/>
                 <div className={"showHide"}><div className={"checkBox"}><input onChange={(e)=>showHide(e)} type="checkbox"/></div></div>
                 <button onClick={create}>Register</button>
-                <span>Already have an account?<Link to={"/a/login"}>login</Link></span>
+                <span>Already have an account?<Link to={"/login"}>login</Link></span>
             </div>
         </div>
     );
