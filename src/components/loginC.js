@@ -5,7 +5,6 @@ import 'react-toastify/dist/ReactToastify.css';
 import {auth} from "../config/firebase";
 import './cssforcomponents.css'
 import {ToastContainer,toast} from "react-toastify";
-import {Socket} from "./auth";
 
 const Login = ()=>{
     const [email, setEmail] = useState("");
@@ -13,7 +12,7 @@ const Login = ()=>{
     const [type, setType] = useState("password");
     const login = async ()=>{
         try {
-            await signInWithEmailAndPassword(auth, email, password).then((user) => {
+            await signInWithEmailAndPassword(auth, email, password).then(() => {
             });
         }catch (error) {
             toast.error(error.message,{position:"top-right",autoClose:3000,hideProgressBar:true})
@@ -28,8 +27,9 @@ const Login = ()=>{
         }
     }
     return (
+        <div>
+            <ToastContainer closeButton={false}/>
         <div className="container">
-            <ToastContainer/>
             <div className={"formb"}>
                 <h1>Login</h1>
                 <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required/>
@@ -41,6 +41,7 @@ const Login = ()=>{
                 <button onClick={login}>Log In</button>
                 <span>Don't have an account?<Link to={"/register"}>register</Link></span>
             </div>
+        </div>
         </div>
     )
 }

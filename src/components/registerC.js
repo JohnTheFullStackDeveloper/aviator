@@ -34,8 +34,9 @@ const Register = () => {
         }
     }
     return (
+        <div>
+            <ToastContainer closeButton={false}/>
         <div className="container">
-            <ToastContainer/>
             <div className={"formb"}>
                 <h1>Register</h1>
                 <input type="text" placeholder="Name" onChange={(e)=>{setName(e.target.value)}} required />
@@ -45,6 +46,7 @@ const Register = () => {
                 <button onClick={create}>Register</button>
                 <span>Already have an account?<Link to={"/login"}>login</Link></span>
             </div>
+        </div>
         </div>
     );
 };

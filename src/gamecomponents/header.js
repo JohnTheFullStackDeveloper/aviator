@@ -7,7 +7,6 @@ import {signOut} from "firebase/auth";
 import img from './signout.png'
 import './cssforgame.css'
 import {Socket} from "../components/auth";
-import {Link} from "react-router-dom";
 const Header = ()=>{
     const [name,setName]=useState('')
     const [money,setMoney]=useState(0)
@@ -20,8 +19,6 @@ const Header = ()=>{
                 document.getElementById("plane").style.animation = "fly 5s linear infinite"
                 document.getElementById("multiplier").innerText = data + "x"
             }catch (e){
-                window.location.reload()
-                console.log("disconnected")
             }
         }
         else{
@@ -36,7 +33,6 @@ const Header = ()=>{
                     pauseOnHover: false
                 })
             }catch (e){
-                console.log("disconnected")
             }
         }
     })
@@ -67,9 +63,8 @@ const Header = ()=>{
     }
     const sOut = ()=>{
 
-        signOut(auth).then((user)=>{
+        signOut(auth).then(()=>{
             console.log("signOut")
-            document.getElementById("toLogin").click();
         }).catch(err=>{
             console.log(err)
         })
@@ -79,7 +74,6 @@ const Header = ()=>{
         <div>
         <ToastContainer closeButton={false}/>
         <div className="form">
-            <Link id={"toLogin"} to={"/login"}/>
             <div className={"details"}>
                 <div>{"‎ "}</div>
             <div className="name">{name}</div>
@@ -96,7 +90,6 @@ const Header = ()=>{
             </div>
 
             <div className="betting-area">
-                <h2>Place Your Bet</h2>
                 <div className={"bets"}>
                     <div id={"min"} style={{color:"white",cursor:"pointer"}} onClick={tenBet}>min</div>
                     <div id={"minus"} onClick={subBet}>-</div>
