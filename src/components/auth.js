@@ -3,7 +3,7 @@ import {ToastContainer,toast} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css';
 import {onAuthStateChanged,createUserWithEmailAndPassword,signInWithPopup,signOut,signInWithEmailAndPassword} from 'firebase/auth'
 import {useState} from "react";
-import {BrowserRouter, Routes, Route, Link} from 'react-router-dom';
+import {HashRouter, Routes, Route, Link} from 'react-router-dom';
 import Register from "./registerC";
 import Login from "./loginC";
 import GamePage from "./gamepage";
@@ -26,7 +26,7 @@ export const Auth= ()=>{
         }
     })
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Link id={"toGame"} to={"/a/aviator" }></Link>
             <Link id={"toLogin"} to={"/a/login"}></Link>
             <Routes>
@@ -34,6 +34,6 @@ export const Auth= ()=>{
                 <Route path="/a/login" element={<Login/>} />
                 <Route path="/a/register" element={<Register/>} />
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     )
 }
