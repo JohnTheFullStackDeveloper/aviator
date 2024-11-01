@@ -7,7 +7,7 @@ import Login from "./loginC";
 import GamePage from "./gamepage";
 import {io} from 'socket.io-client'
 export let Socket = io("https://check-t8r7.onrender.com")
-
+// export let Socket = io("localhost:2000")
 export const Auth= ()=>{
     const [currentUser, setCurrentUser] = useState(auth?.currentUser?.email || "null");
     onAuthStateChanged(auth,()=>{
