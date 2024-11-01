@@ -38,7 +38,7 @@ const Header = ()=>{
     })
     try {
         get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
-            setName(snapshot.val().name);
+            setName(snapshot?.val()?.name || "");
         })
     }catch (e){}
     try {

@@ -1,11 +1,11 @@
 import React, {useState} from 'react';
 import './cssforcomponents.css';
 import {Link} from "react-router-dom";
-import {auth, db} from "../config/firebase";
+import {auth, db, GoogleProvider} from "../config/firebase";
 import 'react-toastify/dist/ReactToastify.css';
 import {set,ref} from 'firebase/database'
 import {ToastContainer,toast} from "react-toastify";
-import {createUserWithEmailAndPassword} from "firebase/auth";
+import {createUserWithEmailAndPassword,signInWithPopup} from "firebase/auth";
 const Register = () => {
     const [name,setName] = useState("");
     const [email, setEmail] = useState('');
@@ -33,17 +33,32 @@ const Register = () => {
             setType("password")
         }
     }
+    const googleSign = ()=>{
+        signInWithPopup(auth, GoogleProvider).then(r =>{
+            let id = r.user.uid;
+            set(ref(db, id), {name: r.user.displayName})
+        })
+    }
     return (
         <div>
             <ToastContainer closeButton={false}/>
         <div className="container">
             <div className={"formb"}>
                 <h1>Register</h1>
-                <input type="text" placeholder="Name" onChange={(e)=>{setName(e.target.value)}} required />
-                <input type="email" placeholder="Email" onChange={(e)=>{setEmail(e.target.value)}} required/>
-                <input type={type} placeholder="Password" onChange={(e)=>{setPassword(e.target.value)}} required/>
-                <div className={"showHide"}><div className={"checkBox"}><input onChange={(e)=>showHide(e)} type="checkbox"/></div></div>
+                <input type="text" placeholder="Name" onChange={(e) => {
+                    setName(e.target.value)
+                }} required/>
+                <input type="email" placeholder="Email" onChange={(e) => {
+                    setEmail(e.target.value)
+                }} required/>
+                <input type={type} placeholder="Password" onChange={(e) => {
+                    setPassword(e.target.value)
+                }} required/>
+                <div className={"showHide"}>
+                    <div className={"checkBox"}><input onChange={(e) => showHide(e)} type="checkbox"/></div>
+                </div>
                 <button onClick={create}>Register</button>
+                <button type="button" onClick={googleSign} className="login-with-google-btn">Sign in with Google</button>
                 <span>Already have an account?<Link to={"/login"}>login</Link></span>
             </div>
         </div>

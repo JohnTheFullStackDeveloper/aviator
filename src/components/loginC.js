@@ -1,10 +1,11 @@
 import React, {useState} from "react";
 import {Link} from "react-router-dom";
-import {signInWithEmailAndPassword} from "firebase/auth";
+import {signInWithEmailAndPassword, signInWithPopup} from "firebase/auth";
 import 'react-toastify/dist/ReactToastify.css';
-import {auth} from "../config/firebase";
+import {auth, db, GoogleProvider} from "../config/firebase";
 import './cssforcomponents.css'
 import {ToastContainer,toast} from "react-toastify";
+import {ref, set} from "firebase/database";
 
 const Login = ()=>{
     const [email, setEmail] = useState("");
@@ -26,6 +27,12 @@ const Login = ()=>{
             setType("password")
         }
     }
+    const googleSign = ()=>{
+        signInWithPopup(auth, GoogleProvider).then(r =>{
+            let id = r.user.uid;
+            set(ref(db, id), {name: r.user.displayName}).then()
+        })
+    }
     return (
         <div>
             <ToastContainer closeButton={false}/>
@@ -39,6 +46,8 @@ const Login = ()=>{
                     <div className={"checkBox"}><input onChange={(e) => showHide(e)} type="checkbox"/></div>
                 </div>
                 <button onClick={login}>Log In</button>
+                <button type="button" onClick={googleSign} className="login-with-google-btn">login with Google
+                </button>
                 <span>Don't have an account?<Link to={"/register"}>register</Link></span>
             </div>
         </div>
