@@ -14,9 +14,8 @@ const GamePage = ()=>{
         }
     })
     return(
-        <div>
-            <Link id={"toLogin"} to={"/login"}></Link>
-            <Header/>
+        <div className={"total"}>
+
         </div>
     )
 }

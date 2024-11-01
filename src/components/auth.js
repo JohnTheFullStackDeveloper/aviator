@@ -6,6 +6,7 @@ import Register from "./registerC";
 import Login from "./loginC";
 import GamePage from "./gamepage";
 import {io} from 'socket.io-client'
+import Header from "../gamecomponents/header";
 export let Socket = io("https://check-t8r7.onrender.com")
 // export let Socket = io("localhost:2000")
 export const Auth= ()=>{
@@ -16,7 +17,6 @@ export const Auth= ()=>{
             document.getElementById("toLogin").click();
         }
         else{
-
             document.getElementById("toGame").click();
         }
     })
@@ -25,10 +25,10 @@ export const Auth= ()=>{
             <Link id={"toGame"} to={"/aviator" }></Link>
             <Link id={"toLogin"} to={"/login"}></Link>
             <Routes>
-                <Route path="/aviator" element={<GamePage/>}/>
+                <Route path="/aviator" element={<Header/>}/>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/register" element={<Register/>} />
-                <Route path="*" element={<GamePage/>} />
+                <Route path="*" element={<Header/>} />
             </Routes>
         </HashRouter>
     )

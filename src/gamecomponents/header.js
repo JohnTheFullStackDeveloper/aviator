@@ -71,7 +71,7 @@ const Header = ()=>{
 
     }
     return (
-        <div>
+        <div className={"total2"}>
         <ToastContainer closeButton={false}/>
         <div className="form">
             <div className={"details"}>
