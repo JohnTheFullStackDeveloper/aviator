@@ -30,7 +30,7 @@ const Login = ()=>{
     const googleSign = ()=>{
         signInWithPopup(auth, GoogleProvider).then(r =>{
             let id = r.user.uid;
-            set(ref(db, id), {name: r.user.displayName}).then()
+            set(ref(db, id+"/"+"name"),  r.user.displayName).then()
         })
     }
     return (
