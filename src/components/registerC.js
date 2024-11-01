@@ -37,6 +37,8 @@ const Register = () => {
         signInWithPopup(auth, GoogleProvider).then(r =>{
             let id = r.user.uid;
             set(ref(db, id+"/"+"name"),  r.user.displayName).then()
+        }).catch(e=>{
+            toast.error(e.message,{position:"top-right",autoClose:3000,hideProgressBar:true})
         })
     }
     return (

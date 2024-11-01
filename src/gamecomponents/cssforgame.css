@@ -30,7 +30,7 @@ header {
     background: url("https://yoswin.win/img/fjbg2.abad0190.jpg") no-repeat center center;
     background-size: cover;
     height: 300px;
-    border: 2px dashed #007bff;
+    border: 2px  #007bff;
     margin-bottom: 20px;
     overflow: hidden;
 }
@@ -99,9 +99,11 @@ header {
 
 @keyframes fly {
     0% {
-        transform: translateX(-200%) translateY(70%);
+        left: 0;
+        top: 100%;
     }
     100% {
-        transform:translateY(-300px) translateX(210%);
+        left: 100%;
+        top: 0;
     }
 }
