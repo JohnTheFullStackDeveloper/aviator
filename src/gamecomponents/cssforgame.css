@@ -1,25 +1,7 @@
-body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
-}
-*{
-    margin: 0;
-}
-div{
-    margin: 0;
-}
+
 .App{
     width: 100%;
     height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-.total2{
-    width: 100%;
 }
 .container {
     margin: 0 auto;
@@ -72,42 +54,42 @@ header {
     margin-top: 10px;
 }
 
-.betting-area {
-    text-align: center;
-}
+/*.betting-area {*/
+/*    text-align: center;*/
+/*}*/
 
-.betting-area input {
-    padding: 10px;
-    margin-right: 10px;
-    width: 100px;
-}
+/*.betting-area input {*/
+/*    padding: 10px;*/
+/*    margin-right: 10px;*/
+/*    width: 100px;*/
+/*}*/
 
-.betting-area button {
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-}
+/*.betting-area button {*/
+/*    padding: 10px 20px;*/
+/*    background-color: #007bff;*/
+/*    color: white;*/
+/*    border: none;*/
+/*    border-radius: 5px;*/
+/*    cursor: pointer;*/
+/*}*/
 
-.betting-area button:hover {
-    background-color: #0056b3;
-}
+/*.betting-area button:hover {*/
+/*    background-color: #0056b3;*/
+/*}*/
 
-.history {
-    margin-top: 20px;
-}
+/*.history {*/
+/*    margin-top: 20px;*/
+/*}*/
 
-.history ul {
-    list-style-type: none;
-    padding: 0;
-}
+/*.history ul {*/
+/*    list-style-type: none;*/
+/*    padding: 0;*/
+/*}*/
 
-.history li {
-    padding: 5px;
-    border-bottom: 1px solid #ddd;
-}
+/*.history li {*/
+/*    padding: 5px;*/
+/*    border-bottom: 1px solid #ddd;*/
+/*}*/
 
 @keyframes fly {
     0% {

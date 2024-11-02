@@ -36,7 +36,7 @@ const Login = ()=>{
         })
     }
     return (
-        <div>
+        <div className={"c"}>
             <ToastContainer closeButton={false}/>
         <div className="container">
             <div className={"formb"}>
