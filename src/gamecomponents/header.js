@@ -9,13 +9,26 @@ import './cssforgame.css'
 import {Socket} from "../components/auth";
 import User from "./currentusers";
 const Header = ()=>{
+    let lastX = 1;
+    const [playing, setPlaying] = useState(true);
     const [name,setName]=useState('')
     const [money,setMoney]=useState(0)
     const [bet1,setBet1]=useState(10)
+    const [bet1Placed,setBet1Placed]=useState(false)
+    const [bet1PlacedMoney, setBet1PlacedMoney]=useState(0)
     const [bet2,setBet2]=useState(10)
+    const [bet2Placed,setBet2Placed]=useState(false)
+    Socket.on("firstBetF",data=>{
+        toast.error(data,{position:"top-right",autoClose:3000,hideProgressBar:true,toastId:"betFailed"})
+    })
+    Socket.on("betWon",data=>{
+        console.log(data)
+    })
     Socket.on("getX",data=>{
+        lastX = data
         if(data!=="gone") {
             try {
+                setPlaying(true)
                 document.getElementById("multiplier").style.color = "black"
                 document.getElementById("plane").style.animation = "fly 5s linear infinite"
                 document.getElementById("multiplier").innerText = data + "x"
@@ -24,8 +37,11 @@ const Header = ()=>{
         }
         else{
             try {
+                document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
                 document.getElementById("multiplier").style.color = "red"
                 document.getElementById("plane").style.animation = "none"
+                setPlaying(false)
+                setBet1Placed(false)
                 toast.error(data + " at " + document.getElementById("multiplier").innerText, {
                     position: "top-right",
                     autoClose: 3000,
@@ -79,6 +95,30 @@ const Header = ()=>{
             })
         }
     }
+    const firstBet = ()=>{
+        if (!playing) {
+            if(money < bet1){
+                document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                toast.error("low money",{position:"top-right",autoClose:700,hideProgressBar:true,toastId:"low money"})
+            }
+            else {
+                Socket.emit("firstBet", {uid: auth.currentUser.uid, betPlaced: bet1, totalMoney: money})
+                toast.success("bet placed",{position:"top-right",autoClose:3000,hideProgressBar:true,toastId:"betFailed"})
+                document.getElementById("firstBet").style.backgroundColor = "orange"
+                setBet1Placed(true)
+            }
+        }
+        else{
+            if (bet1Placed){
+                setBet1Placed(false)
+                document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                Socket.emit("StopBet",{atX:lastX,uid:auth.currentUser.uid})
+            }
+            else{
+            toast.warning("wait for next round",{position:"top-right",autoClose:700,hideProgressBar:true,toastId:"wait for next round"})
+            }
+        }
+    }
     return (
         <div className={"total2"}>
             <div className="first">
@@ -128,9 +168,9 @@ const Header = ()=>{
                                 </div>
                             </div>
                         </div>
-                        <button className="bet-button">
-                        bet<br></br>
-                            {bet1}
+                        <button className="bet-button" id={"firstBet"} onClick={firstBet}>
+                            <div>bet</div>
+                            <div>{bet1}</div>
                         </button>
                     </div>
                     <div className="bet-container">
@@ -169,9 +209,9 @@ const Header = ()=>{
                                 </div>
                             </div>
                         </div>
-                        <button className="bet-button">
-                            bet<br></br>
-                            {bet2}
+                        <button className="bet-button" id={"secondBet"}>
+                            <div>bet</div>
+                            <div>{bet2}</div>
                         </button>
                     </div>
                 </div>
