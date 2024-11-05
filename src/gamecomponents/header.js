@@ -61,10 +61,13 @@ const Header = () => {
         console.log("clicked first" ,bet1Placed)
         if (bet1Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))).then()
+            toast.success("Added "+Number(bet1Won) +" at "+Number(bet1Won/bet1PlacedMoney).toFixed(2),{...toastOptions,toastId:"bet 1 won"})
             setDetails()
             bet1Won = 0
             bet1Placed = false
             bet1PlacedMoney = 0
+            document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
+            document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }else {
             if (!playing) {
                 get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
