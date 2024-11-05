@@ -2,7 +2,7 @@ import '../components/cssforcomponents.css'
 const User = ()=>{
     return(
         <div className="udetials">
-            hello world
+            <a href={"https://johnthefullstackdeveloper.github.io/john.apks.com/"}>John</a>
         </div>
     )
 }
