@@ -10,8 +10,10 @@ import {Socket} from "../components/auth";
 import User from "./currentusers";
 
 let bet1Won = 0;
+let bet2Won = 0;
 let playing = false
 let bet1Placed = false;
+let bet2Placed = false
 const Header = () => {
     Socket.removeAllListeners()
     const toastOptions = {
@@ -26,9 +28,11 @@ const Header = () => {
     const [bet1, setBet1] = useState(10)
     const [bet2, setBet2] = useState(10)
     const [bet1PlacedMoney, setBet1PlacedMoney] = useState(0)
+    const [bet2PlacedMoney,setBet2PlacedMoney] = useState(0)
     const [render, setRender] = useState(null)
+
     const firstBet = () => {
-        console.log(bet1Placed)
+        console.log("first bet")
         if (bet1Placed) {
             Socket.emit("withdraw1", {uid: auth?.currentUser?.uid, wonMoney: Number(bet1Won), nowMoney: money})
             toast.success("withdraw", {...toastOptions, toastId: "withdraw"})
@@ -51,15 +55,63 @@ const Header = () => {
             }
         }
     }
+    const secondBet = ()=>{
+        console.log("second bet")
+        if (bet2Placed){
+            Socket.emit("withdraw2", {uid: auth?.currentUser?.uid, wonMoney: Number(bet2Won), nowMoney: money})
+            toast.success("withdraw", {...toastOptions, toastId: "withdraw"})
+            bet2Placed = false
+            setBet2PlacedMoney(0)
+        }else {
+            if (playing) {
+                toast.warning("wait for next round", {...toastOptions, toastId: "wait for  round"})
+                setRender(" ")
+            } else {
+                if (money < bet2) {
+                    toast.error("low money", {...toastOptions, toastId: "low money"})
+                    setRender("")
+                } else {
+                    bet2Won = bet2
+                    Socket.emit("secondBet", {uid: auth?.currentUser?.uid, totalMoney: money, betPlaced: bet2})
+                    bet2Placed = true
+                    setRender("")
+                }
+            }
+        }
+    }
+    try {
+        get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
+            setMoney(snapshot?.val()?.money || 0);
+        })
+    } catch (e) {}
+    try {
+        get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
+            setName(snapshot?.val()?.name || "");
+        })
+    } catch (e) {}
     Socket.on("firstBetS", data => {
         toast.success(data.msg, {...toastOptions, toastId: "bet 1 placed successfully"})
         bet1Placed = true
         setBet1PlacedMoney(data.betPlaced)
     })
+    Socket.on("secondBetS",data=>{
+        toast.success(data.msg, {...toastOptions, toastId: "bet 1 placed successfully"})
+        bet2Placed = true
+        setBet2PlacedMoney(data.betPlaced)
+    })
     Socket.on("firstBetF", data => {
+        toast.error(data.msg, {...toastOptions, toastId: "bet 1 failed successfully"})
+        bet2Placed = false
+        setBet2PlacedMoney(0)
+    })
+    Socket.on("secondBetF", data => {
         toast.error(data.msg, {...toastOptions, toastId: "bet 1 failed successfully"})
         bet1Placed = false
         setBet1PlacedMoney(0)
+    })
+    Socket.on("withdraw2S",data=>{
+        toast.success(data, {...toastOptions, toastId: "withdraw1 successfully"})
+        setRender("")
     })
     Socket.on("withdraw1S", data => {
         toast.success(data, {...toastOptions, toastId: "withdraw1 successfully"})
@@ -73,6 +125,13 @@ const Header = () => {
             document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
             document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }
+        if (bet2Placed) {
+            document.getElementById("secondBet").style.backgroundColor = "orange"
+            document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet2won">${bet2Won}</div>`
+        } else {
+            document.getElementById("secondBet").innerHTML = `<div>bet</div><div>${bet2}</div>`
+            document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+        }
     } catch (e) {
     }
     Socket.on("getX", data => {
@@ -85,6 +144,10 @@ const Header = () => {
                     bet1Won = (data * bet1PlacedMoney).toFixed(2)
                     document.getElementById("bet1won").innerHTML = `<div>${bet1Won}</div>`
                 }
+                if (bet2Placed) {
+                    bet2Won = (data * bet2PlacedMoney).toFixed(2)
+                    document.getElementById("bet2won").innerHTML = `<div>${bet2Won}</div>`
+                }
                 document.getElementById("multiplier").style.color = "black"
                 document.getElementById("plane").style.animation = "fly 5s linear infinite"
                 document.getElementById("multiplier").innerText = data + "x"
@@ -93,6 +156,7 @@ const Header = () => {
         } else {
             try {
                 bet1Placed = false
+                bet2Placed = false
                 playing = false
                 document.getElementById("multiplier").style.color = "red"
                 document.getElementById("plane").style.animation = "none"
@@ -103,18 +167,16 @@ const Header = () => {
                     toastId: "gone",
                     pauseOnHover: false
                 })
-                setBet1PlacedMoney(0)
+                if (bet1PlacedMoney === 0) {
+                    setBet2PlacedMoney(0)
+                }
+                else {
+                    setBet1PlacedMoney(0)
+                }
             } catch (e) {
             }
         }
     })
-    try {
-        get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
-            setName(snapshot?.val()?.name || "");
-            setMoney(snapshot?.val()?.money || 0);
-        })
-    } catch (e) {
-    }
     const addBet1 = () => {
         setBet1(Number(bet1) + 10)
     }
@@ -178,7 +240,11 @@ const Header = () => {
                                         <input className={"betinput"} type="number" value={bet1} onChange={(e) => {
                                             if (e.target.value == null || e.target.value === "") {
                                                 setBet1("‎ ")
-                                            } else {
+                                            }
+                                            else if(Number(e.target.value) <= 0){
+                                                setBet1(10)
+                                            }
+                                            else {
                                                 setBet1(Number(e.target.value))
                                             }
                                         }}/>
@@ -219,7 +285,11 @@ const Header = () => {
                                         <input className={"betinput"} type="number" value={bet2} onChange={(e) => {
                                             if (e.target.value == null || e.target.value === "") {
                                                 setBet2("‎ ")
-                                            } else {
+                                            }
+                                            else if(Number(e.target.value) <= 0){
+                                                setBet2(10)
+                                            }
+                                            else {
                                                 setBet2(Number(e.target.value))
                                             }
                                         }}/>
@@ -248,7 +318,7 @@ const Header = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <button className="bet-button" id={"secondBet"}>
+                                <button className="bet-button" id={"secondBet"} onClick={secondBet}>
                                     <div>bet</div>
                                     <div>{bet2}</div>
                                 </button>
