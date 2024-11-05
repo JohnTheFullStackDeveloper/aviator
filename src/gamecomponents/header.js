@@ -28,7 +28,7 @@ const Header = () => {
     }
     const [bet1,setBet1] = useState(10);
     const [bet2,setBet2] = useState(10);
-
+    Socket.removeAllListeners()
     const setDetails =()=>{
         try {
             get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
@@ -40,11 +40,12 @@ const Header = () => {
         } catch (e) {}
     }
     setDetails()
-    const setColors =()=>{
+    try {
         if (bet1Placed) {
             document.getElementById("firstBet").style.backgroundColor = "orange"
             document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
-        } else {
+        }
+        else{
             document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
             document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }
@@ -55,15 +56,15 @@ const Header = () => {
             document.getElementById("secondBet").innerHTML = `<div>bet</div><div >${bet2}</div>`
             document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }
-    }
-    const firstBet = ()=>{
+    }catch (e){}
+    const firstBet =()=>{
+        console.log("clicked first" ,bet1Placed)
         if (bet1Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))).then()
             setDetails()
             bet1Won = 0
             bet1Placed = false
             bet1PlacedMoney = 0
-            setColors()
         }else {
             if (!playing) {
                 get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
@@ -77,8 +78,9 @@ const Header = () => {
                             bet1Placed = true
                             bet1Won = bet1
                             bet1PlacedMoney = bet1
+                            document.getElementById("firstBet").style.backgroundColor = "orange"
+                            document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
                             setDetails()
-                            setColors()
                         })
                     }
                 })
@@ -90,54 +92,6 @@ const Header = () => {
     const secondBet = ()=>{
 
     }
-
-    Socket.on("getX", data => {
-        if (data !== "gone") {
-            try {
-                if (playing !== true) {
-                    playing = true
-                }
-                if (bet1Placed) {
-                    bet1Won = (data * bet1PlacedMoney).toFixed(2)
-                    document.getElementById("bet1won").innerHTML = `<div>${bet1Won}</div>`
-                }
-                if (bet2Placed) {
-                    bet2Won = (data * bet2PlacedMoney).toFixed(2)
-                    document.getElementById("bet2won").innerHTML = `<div>${bet2Won}</div>`
-                }
-                document.getElementById("multiplier").style.color = "black"
-                document.getElementById("plane").style.animation = "fly 5s linear infinite"
-                document.getElementById("multiplier").innerText = data + "x"
-            } catch (e) {
-            }
-        } else {
-            try {
-                playing = false
-                MoneyPlacedWithBet = 0
-                bet1Won = 0
-                bet1Placed = false
-                bet1PlacedMoney = 0
-                bet2Placed = false
-                setColors()
-                document.getElementById("multiplier").style.color = "red"
-                document.getElementById("plane").style.animation = "none"
-                toast.error(data + " at " + document.getElementById("multiplier").innerText, {
-                    position: "top-right",
-                    autoClose: 3000,
-                    hideProgressBar: true,
-                    toastId: "gone",
-                    pauseOnHover: false
-                })
-                if (bet1PlacedMoney === 0) {
-                    bet2PlacedMoney=0
-                }
-                else {
-                    bet1PlacedMoney=0
-                }
-            } catch (e) {
-            }
-        }
-    })
     const addBet1 = () => {
         setBet1(Number(bet1) + 10)
     }
@@ -167,6 +121,66 @@ const Header = () => {
             })
         }
     }
+    Socket.on("getX", data => {
+        if (data !== "gone") {
+            try {
+                if (playing !== true) {
+                    playing = true
+                }
+                if (bet1Placed) {
+                    bet1Won = (data * bet1PlacedMoney).toFixed(2)
+                    document.getElementById("firstBet").style.backgroundColor = "orange"
+                    document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
+                }
+                else{
+                    document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
+                    document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                }
+                if (bet2Placed) {
+                    bet2Won = (data * bet2PlacedMoney).toFixed(2)
+                    document.getElementById("secondBet").style.backgroundColor = "orange"
+                    document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet2won">${bet2Won}</div>`
+                }
+                else{
+                    document.getElementById("secondBet").innerHTML = `<div>bet</div><div>${bet2}</div>`
+                    document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                }
+                document.getElementById("multiplier").style.color = "black"
+                document.getElementById("plane").style.animation = "fly 5s linear infinite"
+                document.getElementById("multiplier").innerText = data + "x"
+            } catch (e) {
+            }
+        } else {
+            try {
+                playing = false
+                MoneyPlacedWithBet = 0
+                bet1Won = 0
+                bet1Placed = false
+                bet1PlacedMoney = 0
+                bet2Placed = false
+                document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
+                document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                document.getElementById("secondBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
+                document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                document.getElementById("multiplier").style.color = "red"
+                document.getElementById("plane").style.animation = "none"
+                toast.error(data + " at " + document.getElementById("multiplier").innerText, {
+                    position: "top-right",
+                    autoClose: 3000,
+                    hideProgressBar: true,
+                    toastId: "gone",
+                    pauseOnHover: false
+                })
+                if (bet1PlacedMoney === 0) {
+                    bet2PlacedMoney=0
+                }
+                else {
+                    bet1PlacedMoney=0
+                }
+            } catch (e) {
+            }
+        }
+    })
     return (
         <div className={"total2"}>
             <div className="first">
