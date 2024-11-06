@@ -54,43 +54,6 @@ header {
     margin-top: 10px;
 }
 
-/*.betting-area {*/
-/*    text-align: center;*/
-/*}*/
-
-/*.betting-area input {*/
-/*    padding: 10px;*/
-/*    margin-right: 10px;*/
-/*    width: 100px;*/
-/*}*/
-
-/*.betting-area button {*/
-/*    padding: 10px 20px;*/
-/*    background-color: #007bff;*/
-/*    color: white;*/
-/*    border: none;*/
-/*    border-radius: 5px;*/
-/*    cursor: pointer;*/
-/*}*/
-
-/*.betting-area button:hover {*/
-/*    background-color: #0056b3;*/
-/*}*/
-
-/*.history {*/
-/*    margin-top: 20px;*/
-/*}*/
-
-/*.history ul {*/
-/*    list-style-type: none;*/
-/*    padding: 0;*/
-/*}*/
-
-/*.history li {*/
-/*    padding: 5px;*/
-/*    border-bottom: 1px solid #ddd;*/
-/*}*/
-
 @keyframes fly {
     0% {
         left: 0;

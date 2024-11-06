@@ -18,7 +18,8 @@ let name = "bro";
 let bet1PlacedMoney = 0;
 let bet2PlacedMoney = 0;
 var MoneyPlacedWithBet = 0;
-
+let bet1check = false;
+let bet2check = false;
 const Header =  () => {
     const toastOptions = {
         position: "top-center",
@@ -30,14 +31,20 @@ const Header =  () => {
     const [bet1,setBet1] = useState(10);
     const [bet2,setBet2] = useState(10);
     Socket.removeAllListeners()
+    const checkStatus = ()=> {
+        if (navigator.onLine === false) {
+            toast.error("no internet",{...toastOptions,toastId:"no internet"})
+        }
+    }
     const setDetails =async ()=>{
         try {
+            checkStatus()
             get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
                 money = snapshot?.val()?.money || 0
                 name = snapshot?.val()?.name || "bro"
                 document.getElementById("showMoney").innerText = money + "$"
                 document.getElementById("showName").innerText = name
-            }).catch(error => {console.log("error internet",error)});
+                }).catch(error => {console.log("error internet",error)});
         } catch (e) {}
     }
     setInterval(setDetails,10)
@@ -58,7 +65,8 @@ const Header =  () => {
             document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }
     }catch (e){}
-    const firstBet =()=>{
+    function firstBet(){
+        console.log("first")
         if (bet1Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))).then()
             MoneyPlacedWithBet = Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))
@@ -83,11 +91,13 @@ const Header =  () => {
                         })
                     }
             }else{
-                document.getElementById("firstBet").style.backgroundColor = "yellow"
+                document.getElementById("firstBet").style.backgroundColor = "rgba(0, 51, 255, 0.71)"
+                document.getElementById("firstBet").children.item(0).innerText = "next time"
             }
         }
     }
-    const secondBet = ()=>{
+    function secondBet(){
+        console.log("second")
         if (bet2Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))).then()
             MoneyPlacedWithBet = Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))
@@ -113,7 +123,8 @@ const Header =  () => {
                         })
                     }
             }else{
-                document.getElementById("secondBet").style.backgroundColor = "yellow"
+                document.getElementById("secondBet").children.item(0).innerText = "next time"
+                document.getElementById("secondBet").style.backgroundColor =  "rgba(0, 51, 255, 0.71)"
             }
         }
     }
@@ -152,27 +163,30 @@ const Header =  () => {
                 if (playing !== true) {
                     playing = true
                 }
-                if (bet1Placed) {
-                    bet1Won = (data * bet1PlacedMoney).toFixed(2)
-                    document.getElementById("firstBet").style.backgroundColor = "orange"
-                    document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
-                }
-                else{
-                    document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
-                    document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
-                }
-                if (bet2Placed) {
-                    bet2Won = (data * bet2PlacedMoney).toFixed(2)
-                    document.getElementById("secondBet").style.backgroundColor = "orange"
-                    document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet2won">${bet2Won}</div>`
-                }
-                else{
-                    document.getElementById("secondBet").innerHTML = `<div>bet</div><div>${bet2}</div>`
-                    document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
-                }
                 document.getElementById("multiplier").style.color = "black"
                 document.getElementById("plane").style.animation = "fly 5s linear infinite"
                 document.getElementById("multiplier").innerText = data + "x"
+                if (bet1Placed) {
+                    bet1Won = (data * bet1PlacedMoney).toFixed(2)
+                    if (bet1check) {
+                        document.getElementById("bet1won").innerText = bet1Won
+                    }
+                    else {
+                        bet1check = true
+                        document.getElementById("firstBet").style.backgroundColor = "orange"
+                        document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
+                    }
+                }
+                if (bet2Placed) {
+                    bet2Won = (data * bet2PlacedMoney).toFixed(2)
+                    if (bet2check) {
+                        document.getElementById("bet2won").innerText = bet2Won
+                    }
+                    else {
+                        document.getElementById("secondBet").style.backgroundColor = "orange"
+                        document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet2won">${bet2Won}</div>`
+                    }
+                }
             } catch (e) {
             }
         } else {
@@ -187,6 +201,9 @@ const Header =  () => {
                 bet2Won = 0
                 bet2Placed = false
                 bet2PlacedMoney = 0
+
+                bet1check = false
+                bet2check = false
                 document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
                 document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
                 document.getElementById("secondBet").innerHTML = `<div>bet</div><div>${bet2}</div>`
