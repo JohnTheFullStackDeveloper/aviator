@@ -83,7 +83,7 @@ const Header =  () => {
                         toast.error("low money", {...toastOptions, toastId: "1 low money"})
                     } else {
                         document.getElementById("firstBet").style.backgroundColor = "orange"
-                        document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
+                        document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1}</div>`
                         set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(money-bet1).toFixed(2))).then(()=>{
                             MoneyPlacedWithBet = Number(Number(money-bet1).toFixed(2))
                             bet1Placed = true
@@ -122,7 +122,7 @@ const Header =  () => {
                         toast.error("low money", {...toastOptions, toastId: "2 low money"})
                     } else {
                         document.getElementById("secondBet").style.backgroundColor = "orange"
-                        document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet2Won}</div>`
+                        document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet2}</div>`
                         set(ref(db, auth?.currentUser?.uid + "/money"), Number(Number(money - bet2).toFixed(2))).then(() => {
                             MoneyPlacedWithBet = Number(Number(money - bet2).toFixed(2))
                             bet2Placed = true
