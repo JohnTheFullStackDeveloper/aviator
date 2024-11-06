@@ -20,6 +20,8 @@ let bet2PlacedMoney = 0;
 var MoneyPlacedWithBet = 0;
 let bet1check = false;
 let bet2check = false;
+let advancedBet1 = false;
+let advancedBet2 = false;
 const Header =  () => {
     const toastOptions = {
         position: "top-center",
@@ -30,6 +32,7 @@ const Header =  () => {
     }
     const [bet1,setBet1] = useState(10);
     const [bet2,setBet2] = useState(10);
+    const [XList,setXList] = useState([]);
     Socket.removeAllListeners()
     const checkStatus = ()=> {
         if (navigator.onLine === false) {
@@ -38,7 +41,6 @@ const Header =  () => {
     }
     const setDetails =async ()=>{
         try {
-            checkStatus()
             get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
                 money = snapshot?.val()?.money || 0
                 name = snapshot?.val()?.name || "bro"
@@ -47,7 +49,7 @@ const Header =  () => {
                 }).catch(error => {console.log("error internet",error)});
         } catch (e) {}
     }
-    setInterval(setDetails,10)
+    setInterval(setDetails,1)
     try {
         if (bet1Placed) {
             document.getElementById("firstBet").style.backgroundColor = "orange"
@@ -64,9 +66,16 @@ const Header =  () => {
             document.getElementById("secondBet").innerHTML = `<div>bet</div><div >${bet2}</div>`
             document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }
+        if (advancedBet1){
+            document.getElementById("firstBet").style.backgroundColor = "rgba(0, 51, 255, 0.71)"
+            document.getElementById("firstBet").children.item(0).innerText = "next round"
+        }
+        if (advancedBet2){
+            document.getElementById("secondBet").children.item(0).innerText = "next round"
+            document.getElementById("secondBet").style.backgroundColor = "rgba(0, 51, 255, 0.71)"
+        }
     }catch (e){}
     function firstBet(){
-        console.log("first")
         if (bet1Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))).then()
             MoneyPlacedWithBet = Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))
@@ -78,6 +87,8 @@ const Header =  () => {
             document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }else {
             if (!playing) {
+                get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
+                    money = snapshot.val().money
                     if (money < bet1) {
                         toast.error("low money", {...toastOptions, toastId: "1 low money"})
                     } else {
@@ -90,14 +101,22 @@ const Header =  () => {
                             document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
                         })
                     }
+                })
             }else{
-                document.getElementById("firstBet").style.backgroundColor = "rgba(0, 51, 255, 0.71)"
-                document.getElementById("firstBet").children.item(0).innerText = "next time"
+                if (!advancedBet1) {
+                    document.getElementById("firstBet").style.backgroundColor = "rgba(0, 51, 255, 0.71)"
+                    document.getElementById("firstBet").children.item(0).innerText = "next round"
+                    advancedBet1 = true
+
+                }else{
+                    document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
+                    document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                    advancedBet1 = false
+                }
             }
         }
     }
     function secondBet(){
-        console.log("second")
         if (bet2Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))).then()
             MoneyPlacedWithBet = Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))
@@ -110,11 +129,13 @@ const Header =  () => {
         }
         else{
             if (!playing) {
+                get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
+                    money = snapshot.val().money
                     if (money < bet2) {
                         toast.error("low money", {...toastOptions, toastId: "2 low money"})
                     } else {
-                        set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(money-bet2).toFixed(2))).then(()=>{
-                            MoneyPlacedWithBet = Number(Number(money-bet2).toFixed(2))
+                        set(ref(db, auth?.currentUser?.uid + "/money"), Number(Number(money - bet2).toFixed(2))).then(() => {
+                            MoneyPlacedWithBet = Number(Number(money - bet2).toFixed(2))
                             bet2Placed = true
                             bet2Won = bet2
                             bet2PlacedMoney = bet2
@@ -122,12 +143,35 @@ const Header =  () => {
                             document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet2Won}</div>`
                         })
                     }
+                })
             }else{
-                document.getElementById("secondBet").children.item(0).innerText = "next time"
-                document.getElementById("secondBet").style.backgroundColor =  "rgba(0, 51, 255, 0.71)"
+                if (!advancedBet2) {
+                    document.getElementById("secondBet").children.item(0).innerText = "next round"
+                    document.getElementById("secondBet").style.backgroundColor = "rgba(0, 51, 255, 0.71)"
+                    advancedBet2 = true
+                }else{
+                    document.getElementById("secondBet").innerHTML = `<div>bet</div><div>${bet2}</div>`
+                    document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
+                    advancedBet2 = false
+                }
             }
         }
     }
+    Socket.on("getList",list=>{
+        let a = []
+        list.forEach(element => {
+            if (element < 2) {
+                a.push(<div className={`xBox`} style={{color:"rgba(0, 25, 245, 0.95)"}}>{element}</div>)
+            }
+            else if(element < 5){
+                a.push(<div className={`xBox`} style={{color:"rgba(163, 0, 245, 0.95)"}}>{element}</div>)
+            }
+            else{
+                a.push(<div className={'xBox'} style={{color:"rgba(245, 0, 0, 0.95)"}}>{element}</div>)
+            }
+            setXList(a)
+        });
+    })
     const addBet1 = () => {
         setBet1(Number(bet1) + 10)
     }
@@ -204,6 +248,8 @@ const Header =  () => {
 
                 bet1check = false
                 bet2check = false
+                advancedBet1 = false
+                advancedBet2 = false
                 document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
                 document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
                 document.getElementById("secondBet").innerHTML = `<div>bet</div><div>${bet2}</div>`
@@ -230,6 +276,9 @@ const Header =  () => {
                         </div>
                     </div>
                     <div className="game-area">
+                        <div className='Boxes'>
+                            {XList}
+                        </div>
                         <div id="plane">
                             <div className="flight-path"></div>
                             <div className="plane-icon">✈️</div>
@@ -248,11 +297,9 @@ const Header =  () => {
                                         <input className={"betinput"} type="number" value={bet1} onChange={(e) => {
                                             if (e.target.value == null || e.target.value === "") {
                                                 setBet1("‎ ")
-                                            }
-                                            else if(Number(e.target.value) <= 0){
+                                            } else if (Number(e.target.value) <= 0) {
                                                 setBet1(10)
-                                            }
-                                            else {
+                                            } else {
                                                 setBet1(Number(e.target.value))
                                             }
                                         }}/>
@@ -293,11 +340,9 @@ const Header =  () => {
                                         <input className={"betinput"} type="number" value={bet2} onChange={(e) => {
                                             if (e.target.value == null || e.target.value === "") {
                                                 setBet2("‎ ")
-                                            }
-                                            else if(Number(e.target.value) <= 0){
+                                            } else if (Number(e.target.value) <= 0) {
                                                 setBet2(10)
-                                            }
-                                            else {
+                                            } else {
                                                 setBet2(Number(e.target.value))
                                             }
                                         }}/>
