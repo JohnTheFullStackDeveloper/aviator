@@ -70,6 +70,7 @@ const Header =  () => {
     function firstBet(){
         if (bet1Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))).then()
+            Socket.emit("placedBet",-bet1PlacedMoney)
             MoneyPlacedWithBet = Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))
             toast.success("Added "+Number(bet1Won) +" at "+Number(bet1Won/bet1PlacedMoney).toFixed(2),{...toastOptions,toastId:"bet 1 won"})
             bet1Won = 0
@@ -85,6 +86,7 @@ const Header =  () => {
                         document.getElementById("firstBet").style.backgroundColor = "orange"
                         document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1}</div>`
                         set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(money-bet1).toFixed(2))).then(()=>{
+                            Socket.emit("placedBet",bet1)
                             MoneyPlacedWithBet = Number(Number(money-bet1).toFixed(2))
                             bet1Placed = true
                             bet1Won = bet1
@@ -108,6 +110,7 @@ const Header =  () => {
     function secondBet(){
         if (bet2Placed){
             set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))).then()
+            Socket.emit("placedBet",-bet2PlacedMoney)
             MoneyPlacedWithBet = Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))
             toast.success("Added "+Number(bet2Won) +" at "+Number(bet2Won/bet2PlacedMoney).toFixed(2),{...toastOptions,toastId:"bet 2 won"})
             bet2Won = 0
@@ -124,6 +127,7 @@ const Header =  () => {
                         document.getElementById("secondBet").style.backgroundColor = "orange"
                         document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet2}</div>`
                         set(ref(db, auth?.currentUser?.uid + "/money"), Number(Number(money - bet2).toFixed(2))).then(() => {
+                            Socket.emit("placedBet",bet2)
                             MoneyPlacedWithBet = Number(Number(money - bet2).toFixed(2))
                             bet2Placed = true
                             bet2Won = bet2
