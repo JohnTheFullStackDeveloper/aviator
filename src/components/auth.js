@@ -7,6 +7,10 @@ import Login from "./loginC";
 import GamePage from "./gamepage";
 import {io} from 'socket.io-client'
 import Header from "../gamecomponents/header";
+import {TermsPage} from "../policycomponents/termspage";
+import {RefundPolicyPage} from "../policycomponents/refundpage";
+import {PrivacyPolicyPage} from "../policycomponents/privacypolicy";
+import {ContactUsPage} from "../policycomponents/contactus";
 // export let Socket = io("https://check-t8r7.onrender.com")
 // export let Socket = io("localhost:2000")
 // export let Socket = io("https://45199e36-3f47-41ea-85a8-beb8e8754558-00-bn729pw6xmq9.pike.replit.dev/")
@@ -30,6 +34,10 @@ export const Auth= ()=>{
                 <Route path="/aviator" element={<Header/>}/>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/register" element={<Register/>} />
+                <Route path="/terms" component={TermsPage} />
+                <Route path="/refund-policy" component={RefundPolicyPage} />
+                <Route path="/privacy-policy" component={PrivacyPolicyPage} />
+                <Route path="/contact-us" component={ContactUsPage} />
                 <Route path="*" element={<Header/>} />
             </Routes>
         </HashRouter>
