@@ -70,6 +70,8 @@ const Header =  () => {
             document.getElementById("secondBet").innerHTML = `<div>bet</div><div >${bet2}</div>`
             document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }
+        advancedBet2 = false
+        advancedBet1 = false
     }catch (e){}
     function firstBet(){
         if (bet1Placed){
@@ -89,12 +91,12 @@ const Header =  () => {
                     } else {
                         document.getElementById("firstBet").style.backgroundColor = "orange"
                         document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1}</div>`
+                        MoneyPlacedWithBet = Number(Number(money-bet1).toFixed(2))
+                        bet1Placed = true
+                        bet1Won = bet1
+                        bet1PlacedMoney = bet1
                         set(ref(db,auth?.currentUser?.uid+"/money"),Number(Number(money-bet1).toFixed(2))).then(()=>{
                             Socket.emit("placedBet",bet1)
-                            MoneyPlacedWithBet = Number(Number(money-bet1).toFixed(2))
-                            bet1Placed = true
-                            bet1Won = bet1
-                            bet1PlacedMoney = bet1
                         })
                     }
             }else{
@@ -102,7 +104,6 @@ const Header =  () => {
                     document.getElementById("firstBet").style.backgroundColor = "rgba(0, 51, 255, 0.71)"
                     document.getElementById("firstBet").children.item(0).innerText = "next round"
                     advancedBet1 = true
-
                 }else{
                     document.getElementById("firstBet").innerHTML = `<div>bet</div><div>${bet1}</div>`
                     document.getElementById("firstBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
@@ -130,12 +131,12 @@ const Header =  () => {
                     } else {
                         document.getElementById("secondBet").style.backgroundColor = "orange"
                         document.getElementById("secondBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet2}</div>`
+                        MoneyPlacedWithBet = Number(Number(money - bet2).toFixed(2))
+                        bet2Placed = true
+                        bet2Won = bet2
+                        bet2PlacedMoney = bet2
                         set(ref(db, auth?.currentUser?.uid + "/money"), Number(Number(money - bet2).toFixed(2))).then(() => {
                             Socket.emit("placedBet",bet2)
-                            MoneyPlacedWithBet = Number(Number(money - bet2).toFixed(2))
-                            bet2Placed = true
-                            bet2Won = bet2
-                            bet2PlacedMoney = bet2
                         })
                     }
             }else{
@@ -168,6 +169,7 @@ const Header =  () => {
     })
     Socket.on("getTimeToStart",data=>{
         document.getElementById("multiplier").innerText = "game starts in "+data
+        document.getElementById("multiplier").style.color = "orange"
     })
     const addBet1 = () => {
         setBet1(Number(bet1) + 10)
