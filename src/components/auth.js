@@ -12,9 +12,9 @@ import {RefundPolicyPage} from "../policycomponents/refundpage";
 import {PrivacyPolicyPage} from "../policycomponents/privacypolicy";
 import {ContactUsPage} from "../policycomponents/contactus";
 // export let Socket = io("https://check-t8r7.onrender.com")
-export let Socket = io("localhost:2000")
+// export let Socket = io("localhost:2000")
 // export let Socket = io("https://45199e36-3f47-41ea-85a8-beb8e8754558-00-bn729pw6xmq9.pike.replit.dev/")
-// export const Socket = io("https://server-25w1.onrender.com")
+export const Socket = io("https://server-25w1.onrender.com")
 export const Auth= ()=>{
     const [currentUser, setCurrentUser] = useState(auth?.currentUser?.email || "null");
     onAuthStateChanged(auth,()=>{
