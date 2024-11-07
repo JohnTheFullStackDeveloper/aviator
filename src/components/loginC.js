@@ -6,8 +6,10 @@ import {auth, db, GoogleProvider} from "../config/firebase";
 import './cssforcomponents.css'
 import {ToastContainer,toast} from "react-toastify";
 import {ref, set} from "firebase/database";
+import {Socket} from "./auth";
 
 const Login = ()=>{
+    Socket.removeAllListeners()
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [type, setType] = useState("password");

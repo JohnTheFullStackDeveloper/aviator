@@ -22,6 +22,7 @@ let bet1check = false;
 let bet2check = false;
 let advancedBet1 = false;
 let advancedBet2 = false;
+let c = false;
 const Header =  () => {
     const toastOptions = {
         position: "top-center",
@@ -33,6 +34,9 @@ const Header =  () => {
     const [bet1,setBet1] = useState(10);
     const [bet2,setBet2] = useState(10);
     const [XList,setXList] = useState([]);
+    setTimeout(()=>{
+        Socket.emit("getList","fd")
+    },3000)
     Socket.removeAllListeners()
     const checkStatus = ()=> {
         if (navigator.onLine === false) {
@@ -162,6 +166,9 @@ const Header =  () => {
             setXList(a)
         });
     })
+    Socket.on("getTimeToStart",data=>{
+        document.getElementById("multiplier").innerText = "game starts in "+data
+    })
     const addBet1 = () => {
         setBet1(Number(bet1) + 10)
     }
@@ -274,7 +281,7 @@ const Header =  () => {
                             <div className="flight-path"></div>
                             <div className="plane-icon">✈️</div>
                         </div>
-                        <div className="multiplier-display">
+                        <div className="multiplier-display" id={"multiplier_display"}>
                             <h1 id="multiplier">connecting....</h1>
                         </div>
                     </div>
