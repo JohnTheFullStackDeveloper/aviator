@@ -294,6 +294,10 @@ a:hover {
     border-radius: 10px;
     background-color: rgba(0, 0, 0, 0.43);
 }
+.udetials{
+    display: flex;
+    flex-direction: row;
+}
 #data-next{
     border-radius: 10px;
     background-color: rgba(255, 0, 0, 0.8);
