@@ -7,12 +7,15 @@ import './cssforcomponents.css'
 import {ToastContainer,toast} from "react-toastify";
 import {child, ref, set} from "firebase/database";
 import {getDeviceId, Socket} from "./auth";
-
+import hide from './hide.png'
+import show from './show.png'
+let sh = false;
 const Login = ()=>{
     Socket.removeAllListeners()
     const [email, setEmail] = useState("");
     const [password,setPassword] = useState("");
     const [type, setType] = useState("password");
+    const [imgage,setImgage] = useState(hide);
     const login = async ()=>{
         try {
             await signInWithEmailAndPassword(auth, email, password).then((user) => {
@@ -50,10 +53,22 @@ const Login = ()=>{
             <div className={"formb"}>
                 <h1>Login</h1>
                 <input type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required/>
-                <input type={type} minLength={6} placeholder="Password"
-                       onChange={(e) => setPassword(e.target.value)} required/>
-                <div className={"showHide"}>
-                    <div className={"checkBox"}><input onChange={(e) => showHide(e)} type="checkbox"/></div>
+                <input type={type} placeholder="Password" onChange={(e) => setPassword(e.target.value)} required/>
+                <img id={"hideImg"} src={imgage} onClick={e=>{
+                    if(sh)
+                    {
+                        sh = false;
+                        setImgage(hide);
+                        setType("password")
+                    }
+                    else {
+                        sh = true;
+                        setImgage(show)
+                        setType("text")
+                    }
+                }}/>
+                <div className={"optionsF"}>
+                    <div className={"forgot"}>forgot password</div>
                 </div>
                 <button onClick={login}>Log In</button>
                 <button type="button" onClick={googleSign} className="login-with-google-btn">login with Google

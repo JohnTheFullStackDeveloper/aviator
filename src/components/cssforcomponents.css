@@ -251,6 +251,18 @@ a:hover {
         cursor: not-allowed;
     }
 }
+#hideImg{
+    position: absolute;
+    cursor: pointer;
+    margin-left: -30px;
+    margin-top: 19px;
+    width: 20px;
+}
+.optionsF{
+    display: flex;
+    justify-content: end;
+    margin-bottom: 7px;
+}
 .c{
     width: 100vw;
     height: 100vh;
