@@ -16,6 +16,8 @@ const Login = ()=>{
     const login = async ()=>{
         try {
             await signInWithEmailAndPassword(auth, email, password).then((user) => {
+                getDeviceId = (Date.now() * Math.random() * 100).toString();
+                sessionStorage.setItem("login", getDeviceId);
                 set(ref(db, "users/" + user.user.uid), getDeviceId).then()
             });
         }catch (error) {
@@ -34,6 +36,8 @@ const Login = ()=>{
         signInWithPopup(auth, GoogleProvider).then(r =>{
             let id = r.user.uid;
             set(ref(db, id+"/"+"name"),  r.user.displayName).then()
+            getDeviceId = (Date.now() * Math.random() * 100).toString();
+            sessionStorage.setItem("login", getDeviceId);
             set(ref(db, "users/" + id), getDeviceId).then()
         }).catch(e=>{
           toast.error(e.message,{position:"top-right",autoClose:3000,hideProgressBar:true})
