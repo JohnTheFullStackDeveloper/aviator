@@ -36,14 +36,14 @@ setTimeout(()=>{
     } catch (e) {
     }
 },3000)
+export const toastOptions = {
+    position: "top-center",
+    autoClose: 3000,
+    hideProgressBar: true,
+    pauseOnHover: false,
+    toastId: null
+}
 const Header =  () => {
-    const toastOptions = {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        pauseOnHover: false,
-        toastId: null
-    }
     const [bet1,setBet1] = useState(10);
     const [bet2,setBet2] = useState(10);
     const [XList,setXList] = useState([]);

@@ -258,10 +258,21 @@ a:hover {
     margin-top: 19px;
     width: 20px;
 }
+.pInput{
+    padding-right: 35px;
+}
 .optionsF{
     display: flex;
     justify-content: end;
     margin-bottom: 7px;
+}
+.forgot{
+    cursor: pointer;
+    transition: all 0.3s;
+    &:hover{
+        color: rgba(255, 0, 0, 0.45);
+        text-decoration: underline;
+    }
 }
 .c{
     width: 100vw;
