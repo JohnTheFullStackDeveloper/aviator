@@ -18,30 +18,22 @@ const Login = ()=>{
     const [imgage,setImgage] = useState(hide);
     const login = async ()=>{
         try {
-            await signInWithEmailAndPassword(auth, email, password).then((user) => {
-                getDeviceId = (Date.now() * Math.random() * 100).toString();
-                sessionStorage.setItem("login", getDeviceId);
-                set(ref(db, "users/" + user.user.uid), getDeviceId).then()
+             signInWithEmailAndPassword(auth, email, password).then((user) => {
+                getDeviceId[0] = new Date().getTime().toString();
+                localStorage.setItem("login", getDeviceId[0]);
+                set(ref(db, "users/" + user.user.uid), getDeviceId[0])
             });
         }catch (error) {
             toast.error(error.message,{position:"top-right",autoClose:3000,hideProgressBar:true})
-        }
-    }
-    const showHide = (e)=>{
-        if (e.target.checked){
-            setType("text")
-        }
-        else{
-            setType("password")
         }
     }
     const googleSign = ()=>{
         signInWithPopup(auth, GoogleProvider).then(r =>{
             let id = r.user.uid;
             set(ref(db, id+"/"+"name"),  r.user.displayName).then()
-            getDeviceId = (Date.now() * Math.random() * 100).toString();
-            sessionStorage.setItem("login", getDeviceId);
-            set(ref(db, "users/" + id), getDeviceId).then()
+            getDeviceId[0] = new Date().getTime().toString();
+            localStorage.setItem("login", getDeviceId[0]);
+            set(ref(db, "users/" + id), getDeviceId[0]).then()
         }).catch(e=>{
           toast.error(e.message,{position:"top-right",autoClose:3000,hideProgressBar:true})
         })

@@ -6,6 +6,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {set,ref} from 'firebase/database'
 import {ToastContainer,toast} from "react-toastify";
 import {createUserWithEmailAndPassword,signInWithPopup} from "firebase/auth";
+import {getDeviceId} from "./auth";
 const Register = () => {
     const [name,setName] = useState("");
     const [email, setEmail] = useState('');
@@ -16,6 +17,9 @@ const Register = () => {
             if(name.length >=3){
             await createUserWithEmailAndPassword(auth, email, password).then((user) => {
                 let id = user.user.uid;
+                getDeviceId[0] = new Date().getTime().toString();
+                localStorage.setItem("login", getDeviceId[0]);
+                set(ref(db, "users/" + id), getDeviceId[0]).then()
                 set(ref(db,id),{name:name})
             })
             }else{
@@ -36,6 +40,9 @@ const Register = () => {
     const googleSign = ()=>{
         signInWithPopup(auth, GoogleProvider).then(r =>{
             let id = r.user.uid;
+            getDeviceId[0] = new Date().getTime().toString();
+            localStorage.setItem("login", getDeviceId[0]);
+            set(ref(db, "users/" + id), getDeviceId[0]).then()
             set(ref(db, id+"/"+"name"),  r.user.displayName).then()
         }).catch(e=>{
             toast.error(e.message,{position:"top-right",autoClose:3000,hideProgressBar:true})
