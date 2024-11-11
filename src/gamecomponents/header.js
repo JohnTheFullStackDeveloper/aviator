@@ -8,11 +8,14 @@ import img from './signout.png'
 import './cssforgame.css'
 import {Socket} from "../components/auth";
 import User from "./currentusers";
+import menu from './menu.png';
+import wrong from './worng.png'
 let bet1Won = 0;
 let bet2Won = 0;
 let playing = false
 let bet1Placed = false;
 let bet2Placed = false
+var RoundName = ""
 var money = 0
 var anotherMoney = 0
 let name = "bro";
@@ -23,12 +26,13 @@ let bet1check = false;
 let bet2check = false;
 let advancedBet1 = false;
 let advancedBet2 = false;
+let latestX;
 setTimeout(()=>{
     try {
         get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
-            money = snapshot?.val()?.money || 0
+            money = snapshot?.val()?.money||0
             name = snapshot?.val()?.name || "bro"
-            document.getElementById("showMoney").innerText = money + "$"
+            document.getElementById("showMoney").innerText = money + "$ "
             document.getElementById("showName").innerText = name
         }).catch(error => {
             console.log("error internet", error)
@@ -47,12 +51,24 @@ const Header =  () => {
     const [bet1,setBet1] = useState(10);
     const [bet2,setBet2] = useState(10);
     const [XList,setXList] = useState([]);
+    const [hide,setHide] = useState("none")
+    useEffect(()=>{
+        document.getElementsByClassName("menuBar")[0].style.display = hide;
+    },[hide])
     setTimeout(()=>{
         Socket.emit("getList","fd")
     },3000)
+    function menuHide() {
+        if (hide === "none"){
+            setHide("flex")
+        }
+        else{
+            setHide("none")
+        }
+    }
     try {
         get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
-            document.getElementById("showMoney").innerText =  snapshot?.val()?.money || 0 + "$"
+            document.getElementById("showMoney").innerText =  snapshot?.val()?.money + "$"|| 0
             document.getElementById("showName").innerText = snapshot?.val()?.name || "bro"
         }).catch(error => {
             console.log("error internet", error)
@@ -70,10 +86,10 @@ const Header =  () => {
             document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1Won}</div>`
         }
         else if (advancedBet1){
-            try {
+            try{
                 get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
                     money = snapshot?.val()?.money || 0
-                    name = snapshot?.val()?.name || "bro"
+                    name = snapshot?.val()?.name || "bro "
                     document.getElementById("showMoney").innerText = money + "$"
                     document.getElementById("showName").innerText = name
                 }).catch(error => {
@@ -108,10 +124,22 @@ const Header =  () => {
             document.getElementById("secondBet").style.backgroundColor = "rgba(0, 255, 0, 0.7)"
         }
     }catch (e){}
+    Socket.on("getRoundName",data=>{
+        RoundName = data
+    })
+
     function firstBet(){
         if (bet1Placed){
             money = Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))
             set(ref(db,auth?.currentUser?.uid+"/money"),money).then()
+            let Now = new Date()
+            set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName+"1"), {
+                Bet: bet1PlacedMoney,
+                Time: Now.getHours().toString() + ":" + Now.getMinutes().toString()+":"+Now.getSeconds(),
+                Date: Now.getDate().toString() + "-" + (Now.getMonth() + 1).toString() + "-" + Now.getFullYear().toString().substring(2, 4),
+                BetWon:bet1Won,
+                at:Number(bet1Won/bet1PlacedMoney).toFixed(2)
+            }).then()
             Socket.emit("placedBet",-bet1PlacedMoney)
             MoneyPlacedWithBet = Number(Number(Number(bet1Won) + MoneyPlacedWithBet).toFixed(2))
             toast.success("Added "+Number(bet1Won) +" at "+Number(bet1Won/bet1PlacedMoney).toFixed(2),{...toastOptions,toastId:"bet 1 won"})
@@ -132,12 +160,17 @@ const Header =  () => {
                         document.getElementById("firstBet").style.backgroundColor = "orange"
                         document.getElementById("firstBet").innerHTML = `<div>cashout</div><div id="bet1won">${bet1}</div>`
                         MoneyPlacedWithBet = Number(Number(cc-bet1).toFixed(2))
-                        console.log(MoneyPlacedWithBet)
                         bet1Placed = true
                         bet1Won = bet1
                         bet1PlacedMoney = bet1
                         set(ref(db,auth?.currentUser?.uid+"/money"),money).then(()=>{
                             Socket.emit("placedBet",bet1)
+                            let Now = new Date()
+                            set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName+"1"), {
+                                Bet: bet1PlacedMoney,
+                                Time: Now.getHours().toString() + ":" + Now.getMinutes().toString()+":"+Now.getSeconds(),
+                                Date: Now.getDate().toString() + "-" + (Now.getMonth() + 1).toString() + "-" + Now.getFullYear().toString().substring(2, 4)
+                            }).then()
                         })
                     }
             }else{
@@ -157,6 +190,14 @@ const Header =  () => {
         if (bet2Placed){
             money = Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))
             set(ref(db,auth?.currentUser?.uid+"/money"),money).then()
+            let Now = new Date()
+            set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName+"2"), {
+                Bet: bet2PlacedMoney,
+                Time: Now.getHours().toString() + ":" + Now.getMinutes().toString()+":"+Now.getSeconds(),
+                Date: Now.getDate().toString() + "-" + (Now.getMonth() + 1).toString() + "-" + Now.getFullYear().toString().substring(2, 4),
+                BetWon:bet2Won,
+                at:Number(bet2Won/bet2PlacedMoney).toFixed(2)
+            }).then()
             Socket.emit("placedBet",-bet2PlacedMoney)
             MoneyPlacedWithBet = Number(Number(Number(bet2Won) + MoneyPlacedWithBet).toFixed(2))
             toast.success("Added "+Number(bet2Won) +" at "+Number(bet2Won/bet2PlacedMoney).toFixed(2),{...toastOptions,toastId:"bet 2 won"})
@@ -183,6 +224,12 @@ const Header =  () => {
                         bet2Won = bet2
                         set(ref(db, auth?.currentUser?.uid + "/money"), money).then(() => {
                             Socket.emit("placedBet",bet2)
+                            let Now = new Date()
+                            set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName+"2"), {
+                                Bet: bet2PlacedMoney,
+                                Time: Now.getHours().toString() + ":" + Now.getMinutes().toString()+":"+Now.getSeconds(),
+                                Date: Now.getDate().toString() + "-" + (Now.getMonth() + 1).toString() + "-" + Now.getFullYear().toString().substring(2, 4)
+                            }).then()
                         })
                     }
             }else{
@@ -237,7 +284,9 @@ const Header =  () => {
             setBet2(10)
         }
     }
-    const sOut = async () => {
+    function sOut(event){
+        console.log("sOut")
+        event.preventDefault()
         let log = window.confirm("do you want to logout");
         if (log) {
             signOut(auth).then(() => {
@@ -248,14 +297,15 @@ const Header =  () => {
     }
     Socket.on("getX", data => {
         if (data !== "gone") {
+            latestX = data;
             try {
                 if (playing !== true) {
                     playing = true
                 }
                 if(document.getElementById("multiplier").style.color !== "black"){
                     document.getElementById("multiplier").style.color = "black"
+                    document.getElementById("plane").style.animation = "fly 5s linear infinite"
                 }
-                document.getElementById("plane").style.animation = "fly 5s linear infinite"
                 document.getElementById("multiplier").innerText = data + "x"
                 if (bet1Placed) {
                     bet1Won = (data * bet1PlacedMoney).toFixed(2)
@@ -286,13 +336,19 @@ const Header =  () => {
                 try {
                     get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
                         money = snapshot?.val()?.money || 0
-                        name = snapshot?.val()?.name || "bro"
+                        name = snapshot?.val()?.name || " bro"
                         document.getElementById("showMoney").innerText = money + "$"
                         document.getElementById("showName").innerText = name
                     }).catch(error => {
                         console.log("error internet", error)
                     });
                 }catch (e){}
+                if (bet1Placed){
+                    set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName+"1/goneAt"), latestX).then()
+                }
+                if (bet2Placed){
+                    set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName+"2/goneAt"), latestX).then()
+                }
                 playing = false
                 MoneyPlacedWithBet = 0
 
@@ -340,11 +396,22 @@ const Header =  () => {
                         <div className="name" id={"showName"}>{name}</div>
                         <div className={"MSDiv"}>
                             <div className="money" id={"showMoney"}>{money + "$"}</div>
-                            <div id={"addMoney"}><h4>+</h4></div>
-                            <img className={"signOut"} src={img} alt={"signOut"} onClick={sOut}/>
+                            <div id={"addMoney"}><img onClick={()=>menuHide()} src={menu} style={{width: 15,cursor:"pointer"}}/></div>
                         </div>
                     </div>
                     <div className="game-area">
+                        <div className={"menuBar"}>
+                            <div className={"wrong-e"} onClick={menuHide} style={{marginLeft:10,marginTop:10,position:"absolute"}}><img src={wrong} width={20}/></div>
+                            <div className={"menuBar-e"}>bet history</div>
+                            <div className={"line"}></div>
+                            <div className={"menuBar-e"}>add money</div>
+                            <div className={"line"}></div>
+                            <div className={"menuBar-e"}>withdraw</div>
+                            <div className={"line"}></div>
+                            <div className={"center"} onClick={sOut}>
+                                <div className={"menuBar-e"}>sign out</div>
+                                <img className={"signOut"} src={img} alt={"signOut"}/></div>
+                        </div>
                         <div className='Boxes'>
                             {XList}
                         </div>
