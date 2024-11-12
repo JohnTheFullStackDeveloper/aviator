@@ -52,7 +52,7 @@ export const Auth= ()=>{
                         Socket.removeAllListeners()
                         clearInterval(i)
                         console.log(document.cookie)
-                        // console.log(snapshot.val(),document.cookie)
+                        console.log(snapshot.val(),document.cookie,document.cookie.includes(snapshot.val()))
                         signOut(auth).then()
                     }
                 })

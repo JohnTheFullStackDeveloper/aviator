@@ -52,9 +52,7 @@ setTimeout(() => {
                     }).catch(error => {
                         console.log("error internet", error)
                     });
-                } catch (e) {
-                    clearInterval(i0)
-                }
+                } catch (e) {}
             },100)
         }).catch(error => {
             console.log("error internet", error)
