@@ -40,6 +40,10 @@ export function getHistory() {
       document.getElementById("allHistory").appendChild(won);
       }catch(e){}
     });
+    let gun = document.createElement("div")
+    gun.className = "menuBar-f"
+    gun.innerHTML = `<div class="gurentee">no more histroy</div>`
+    document.getElementById("allHistory").appendChild(gun)
   });
 }
 const MenuHistory = () => {
@@ -56,7 +60,7 @@ const MenuHistory = () => {
         <img src={wrong} width={20} />
       </div>
       <div id="allHistory">
-
+  
       </div>
     </div>
   );
