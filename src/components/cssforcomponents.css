@@ -53,7 +53,6 @@ body {
 }
 .menuBar,.menuBar-2 {
     padding-top: 20px;
-    width: 70%;
     max-height: 70vh;
     overflow: auto;
     display: none;
@@ -122,6 +121,9 @@ body {
     /*}*/
     #bet-container-1{
         margin-bottom: 10px;
+    }
+    .menuBar,.menuBar-2 {
+        min-width: 50%;
     }
     .form {
         background: white;
