@@ -47,11 +47,12 @@ export const Auth= ()=>{
             clearInterval(i)
             i = setInterval(()=>{
                 get(child(ref(db),"users/"+auth?.currentUser?.uid)).then(snapshot=>{
-                    if (document.cookie.includes(snapshot.val())) {}
+                    if (document.cookie.includes(snapshot.val())) {
+                        console.log(snapshot.val(),document.cookie,document.cookie.includes(snapshot.val()))
+                    }
                     else{
                         Socket.removeAllListeners()
                         clearInterval(i)
-                        console.log(document.cookie)
                         console.log(snapshot.val(),document.cookie,document.cookie.includes(snapshot.val()))
                         signOut(auth).then()
                     }
