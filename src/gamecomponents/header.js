@@ -38,24 +38,30 @@ setTimeout(() => {
             name = snapshot?.val()?.name || "bro"
             document.getElementById("showMoney").innerText = money + "$ "
             document.getElementById("showName").innerText = name
+            let i0 = setInterval(()=>{
+                try {
+                    get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
+                        let mvalue = snapshot.val()?.money;
+                        if(mvalue == undefined){
+                            document.getElementById("showMoney").innerText = 0+"$"
+                        }else{
+                        document.getElementById("showMoney").innerText = mvalue + "$"
+                        }
+                        document.getElementById("showMoney").innerText = (snapshot?.val()?.money || 0) + "$"
+                        document.getElementById("showName").innerText = snapshot?.val()?.name || "bro"
+                    }).catch(error => {
+                        console.log("error internet", error)
+                    });
+                } catch (e) {
+                    clearInterval(i0)
+                }
+            },100)
         }).catch(error => {
             console.log("error internet", error)
         });
     } catch (e) {
     }
-}, 3000)
-let i0 = setInterval(()=>{
-    try {
-        get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
-            document.getElementById("showMoney").innerText = (snapshot?.val()?.money || 0) + "$"
-            document.getElementById("showName").innerText = snapshot?.val()?.name || "bro"
-        }).catch(error => {
-            console.log("error internet", error)
-        });
-    } catch (e) {
-        clearInterval(i0)
-    }
-},100)
+}, 1000)
 
 const Header = () => {
     const [bet1, setBet1] = useState(10);
