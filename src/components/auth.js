@@ -51,6 +51,7 @@ export const Auth= ()=>{
                     else{
                         Socket.removeAllListeners()
                         clearInterval(i)
+                        console.log(document.cookie)
                         // console.log(snapshot.val(),document.cookie)
                         signOut(auth).then()
                     }
