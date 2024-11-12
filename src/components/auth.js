@@ -35,7 +35,6 @@ setInterval(()=>{
 // export let Socket = io("https://45199e36-3f47-41ea-85a8-beb8e8754558-00-bn729pw6xmq9.pike.replit.dev/")
 export const Socket = io("https://server-25w1.onrender.com")
 let i;
-let msg = "someone login your account"
 export const Auth= ()=>{
     const [currentUser, setCurrentUser] = useState(auth?.currentUser?.email || "null");
     onAuthStateChanged(auth,()=>{
@@ -51,8 +50,6 @@ export const Auth= ()=>{
                     if (snapshot.val() === localStorage.getItem("login")) {}
                     else{
                         Socket.removeAllListeners()
-                        alert(msg)
-                        msg = "if not you? change password using forgot password"
                         signOut(auth).then()
                         clearInterval(i)
                     }
