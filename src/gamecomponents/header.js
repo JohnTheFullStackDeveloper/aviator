@@ -47,12 +47,14 @@ setTimeout(() => {
 let i0 = setInterval(()=>{
     try {
         get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
-            document.getElementById("showMoney").innerText = snapshot?.val()?.money + "$" || 0
+            document.getElementById("showMoney").innerText = (snapshot?.val()?.money || 0) + "$"
             document.getElementById("showName").innerText = snapshot?.val()?.name || "bro"
         }).catch(error => {
             console.log("error internet", error)
         });
-    } catch (e) {}
+    } catch (e) {
+        clearInterval(i0)
+    }
 },100)
 
 const Header = () => {

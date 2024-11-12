@@ -47,11 +47,12 @@ export const Auth= ()=>{
             clearInterval(i)
             i = setInterval(()=>{
                 get(child(ref(db),"users/"+auth?.currentUser?.uid)).then(snapshot=>{
-                    if (snapshot.val() === localStorage.getItem("login")) {}
+                    if (snapshot.val() === document.cookie) {}
                     else{
                         Socket.removeAllListeners()
-                        signOut(auth).then()
                         clearInterval(i)
+                        // console.log(snapshot.val(),document.cookie)
+                        signOut(auth).then()
                     }
                 })
             },2000)

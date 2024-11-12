@@ -20,7 +20,7 @@ const Login = ()=>{
     const login = async ()=>{
         signInWithEmailAndPassword(auth, email, password).then((user) => {
             getDeviceId[0] = new Date().getTime().toString();
-            localStorage.setItem("login", getDeviceId[0]);
+            document.cookie = `${getDeviceId[0]}; ${999999999999999}; path=/`
             set(ref(db, "users/" + user.user.uid), getDeviceId[0])
         }).catch(e=>{
             toast.error(e.message,{position:"top-right",autoClose:3000,hideProgressBar:true})
@@ -31,7 +31,7 @@ const Login = ()=>{
             let id = r.user.uid;
             set(ref(db, id+"/"+"name"),  r.user.displayName).then()
             getDeviceId[0] = new Date().getTime().toString();
-            localStorage.setItem("login", getDeviceId[0]);
+            document.cookie = `${getDeviceId[0]}; ${999999999999999}; path=/`
             set(ref(db, "users/" + id), getDeviceId[0]).then()
         }).catch(e=>{
           toast.error(e.message,{position:"top-right",autoClose:3000,hideProgressBar:true})

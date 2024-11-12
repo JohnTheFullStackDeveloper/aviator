@@ -22,9 +22,9 @@ const Register = () => {
             await createUserWithEmailAndPassword(auth, email, password).then((user) => {
                 let id = user.user.uid;
                 getDeviceId[0] = new Date().getTime().toString();
-                localStorage.setItem("login", getDeviceId[0]);
-                set(ref(db, "users/" + id), getDeviceId[0]).then()
-                set(ref(db,id),{name:name})
+            document.cookie = `${getDeviceId[0]}; ${999999999999999}; path=/`
+            set(ref(db, "users/" + id), getDeviceId[0]).then()
+                set(ref(db,id),{name:name,money:0})
             })
             }else{
                 toast.error("enter name correctly",{position:"top-right",autoClose:3000,hideProgressBar:true});
@@ -33,19 +33,11 @@ const Register = () => {
             toast.error(err.message,{position:"top-right",autoClose:3000,hideProgressBar:true});
         }
     }
-    const showHide = (e)=>{
-        if (e.target.checked){
-            setType("text")
-        }
-        else{
-            setType("password")
-        }
-    }
     const googleSign = ()=>{
         signInWithPopup(auth, GoogleProvider).then(r =>{
             let id = r.user.uid;
             getDeviceId[0] = new Date().getTime().toString();
-            localStorage.setItem("login", getDeviceId[0]);
+            document.cookie = `${getDeviceId[0]}; ${999999999999999}; path=/`
             set(ref(db, "users/" + id), getDeviceId[0]).then()
             set(ref(db, id+"/"+"name"),  r.user.displayName).then()
         }).catch(e=>{
