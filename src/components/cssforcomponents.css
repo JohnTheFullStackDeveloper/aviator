@@ -51,7 +51,22 @@ body {
     gap: 10px;
     align-self: end;
 }
-
+.menuBar,.menuBar-2 {
+    padding-top: 20px;
+    width: 70%;
+    max-height: 70vh;
+    overflow: auto;
+    display: none;
+    position: absolute;
+    background-color: #616161;
+    border-radius: 10px;
+    top: 10px;
+    right:10px;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    z-index: 1;
+}
 @media (min-width: 500px) {
     body{
         background-color: white;
@@ -80,10 +95,16 @@ body {
         box-shadow: -10px -10px 10px  rgba(0, 0, 0,0.1);
         transition: all 0.5s;
     }
+    .menuBar,.menuBar-2 {
+        max-width: 41%;
+    }
 }
 @media (min-width: 900px) {
     .bet-container{
         width: 50%;
+    }
+    .menuBar,.menuBar-2 {
+        max-width: 41%;
     }
     #bet-container-1{
         margin-bottom: 0;
@@ -327,26 +348,49 @@ a:hover {
     margin: 10px;
     cursor: pointer;
 }
-.menuBar{
-    padding-top: 20px;
-    width: 50%;
-    display: none;
-    position: absolute;
-    background-color: #616161;
-    border-radius: 10px;
-    top: 0px;
-    right:10px;
-    z-index: 1;
-    flex-direction: column;
-    justify-content: start;
-    align-items: start;
-}
 .menuBar-e{
     margin: 10px;
     color: white;
     &:hover{
         cursor: pointer;
     }
+}
+.Time{
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+.menuBar-f{
+    padding: 4px;
+    border: white 1px solid;
+    margin: 10px;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    &:hover{
+        cursor: pointer;
+    }
+}
+.HowMuch{
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    margin-right:10px;
+}
+.HowMuchL{
+    margin-left: 10px;
+    display: flex;
+    align-items: center;
+}
+.MoneyLoss{
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+}
+.MoneyWon{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
 }
 .signOut{
     filter: invert(90%);

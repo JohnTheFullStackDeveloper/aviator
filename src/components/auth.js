@@ -10,7 +10,7 @@ import {TermsPage} from "../policycomponents/termspage";
 import {RefundPolicyPage} from "../policycomponents/refundpage";
 import {PrivacyPolicyPage} from "../policycomponents/privacypolicy";
 import {ContactUsPage} from "../policycomponents/contactus";
-import {child, get, ref, set} from "firebase/database";
+import {child, get, ref} from "firebase/database";
 function getI(){
     let id = localStorage.getItem("login")||null
     if (id===null){

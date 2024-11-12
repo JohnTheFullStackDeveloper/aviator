@@ -9,8 +9,8 @@ import {child, ref, set} from "firebase/database";
 import {getDeviceId, Socket} from "./auth";
 import hide from './hide.png'
 import show from './show.png'
-import {toastOptions} from "../gamecomponents/header";
 let sh = false;
+let toastOptions = {}
 const Login = ()=>{
     Socket.removeAllListeners()
     const [email, setEmail] = useState("");
