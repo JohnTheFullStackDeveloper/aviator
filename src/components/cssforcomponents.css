@@ -66,6 +66,13 @@ body {
     align-items: start;
     z-index: 1;
 }
+#amount{
+    border: black 1px solid;
+    width: 90%;
+}
+#payApp{
+    display: none;
+}
 @media (min-width: 500px) {
     body{
         background-color: white;
@@ -122,6 +129,14 @@ body {
     /*.udetials{*/
     /*    display: none;*/
     /*}*/
+    #amount{
+        border: black 1px solid;
+        width: 40%;
+    }
+    #payApp{
+        display: inline;
+        width: 40%;
+    }
     #bet-container-1{
         margin-bottom: 10px;
     }
@@ -520,4 +535,19 @@ input::-webkit-inner-spin-button {
 /* Hide spin buttons in Firefox */
 input[type="number"] {
     -moz-appearance: textfield;
+}
+
+.container2{
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    scale: 0.87;
+}
+.link{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 7%;
 }

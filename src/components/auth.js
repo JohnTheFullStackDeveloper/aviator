@@ -12,6 +12,8 @@ import {PrivacyPolicyPage} from "../policycomponents/privacypolicy";
 import {ContactUsPage} from "../policycomponents/contactus";
 import {child, get, ref} from "firebase/database";
 import Cookies from 'js-cookie'
+import { Deposit } from './deposit.js';
+import GamePage from './gamepage.js';
 export var getDeviceId = [""]
 setInterval(()=>{
     let w = localStorage.getItem("windows")||null;
@@ -34,7 +36,7 @@ export const Auth= ()=>{
     onAuthStateChanged(auth,()=>{
         setCurrentUser(auth?.currentUser?.email || "null")
         if (currentUser === null || currentUser === "null") {
-            document.getElementById("toLogin").click();
+            document.getElementById("toLogin").click();                
         }
         else{
             document.getElementById("toGame").click();
@@ -58,13 +60,14 @@ export const Auth= ()=>{
             <Link id={"toGame"} to={"/aviator" }></Link>
             <Link id={"toLogin"} to={"/login"}></Link>
             <Routes>
-                <Route path="/aviator" element={<Header/>}/>
+                <Route path="/aviator" element={<GamePage/>}/>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/register" element={<Register/>} />
-                <Route path="/terms" component={TermsPage} />
-                <Route path="/refund-policy" component={RefundPolicyPage} />
-                <Route path="/privacy-policy" component={PrivacyPolicyPage} />
-                <Route path="/contact-us" component={ContactUsPage} />
+                <Route path="/terms" element={<TermsPage/>} />
+                
+                <Route path="/refund-policy" component={<RefundPolicyPage/>} />
+                <Route path="/privacy-policy" component={<PrivacyPolicyPage/>} />
+                <Route path="/contact-us" component={<ContactUsPage/>} />
                 <Route path="*" element={<Header/>} />
             </Routes>
         </HashRouter>

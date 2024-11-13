@@ -4,19 +4,28 @@ import 'react-toastify/dist/ReactToastify.css';
 import {Link} from "react-router-dom";
 import {onAuthStateChanged} from "firebase/auth";
 import Header from "../gamecomponents/header";
-
+import { hord } from "../gamecomponents/header";
+import { Deposit } from "./deposit";
 const GamePage = ()=>{
-    const [currentUser, setCurrentUser] = useState(auth?.currentUser?.email||"null");
-    onAuthStateChanged(auth,(user)=>{
-        setCurrentUser(user?.email || "null")
-        if (currentUser === "null" || currentUser === undefined) {
-            document.getElementById("toLogin").click();
-        }
-    })
-    return(
-        <div className={"total"}>
+    // create pressed state
+const [pressed, setPressed] = useState(true);
 
-        </div>
+// onClick() function
+function press() {
+    if (localStorage.getItem("page") == "d") {
+        localStorage.setItem("page","h") 
+        setPressed(true);
+        }
+    else{
+         localStorage.setItem("page","d")
+         setPressed(false);
+    }
+        }
+
+// true or false // change component
+const component = pressed ? <Header onClick={press} /> : <Deposit onClick={press} />
+    return(
+        component
     )
 }
 export default GamePage;

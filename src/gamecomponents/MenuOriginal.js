@@ -8,15 +8,17 @@ import {hideHistoryOrNot, hideOrNot} from "./header";
 import {child, get, ref} from "firebase/database";
 import {Link} from "react-router-dom";
 import { getHistory } from "./menuHistory";
+import { hord } from "./header";
+import GamePage from "../components/gamepage";
 export const history = []
-export const MenuOriginal = () => {
+export const MenuOriginal = (props) => {
     let a =  (
         <div className={"menuBar"}>
             <div className={"wrong-e"} onClick={menuHide} style={{marginLeft: 10, marginTop: 10, position: "absolute"}}>
                 <img src={wrong} width={20}/></div>
             <div className={"menuBar-e"} onClick={()=>{hideHistory();getHistory()}}>bet history</div>
             <div className={"line"}></div>
-            <div className={"menuBar-e"}>add money</div>
+            <div className={"menuBar-e"} onClick={()=>{props.prp();Socket.removeAllListeners();}}>diposit</div>
             <div className={"line"}></div>
             <div className={"menuBar-e"}>withdraw</div>
             <div className={"line"}></div>

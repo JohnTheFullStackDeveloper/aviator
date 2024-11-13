@@ -31,6 +31,7 @@ let bet2check = false;
 let advancedBet1 = false;
 let advancedBet2 = false;
 let latestX;
+export let hord = ["h"]
 setTimeout(() => {
     try {
         get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
@@ -58,11 +59,12 @@ setTimeout(() => {
     } catch (e) {
     }
 }, 1000)
-
-const Header = () => {
+const Header = (props) => {
+    props.onClick()
     const [bet1, setBet1] = useState(10);
     const [bet2, setBet2] = useState(10);
     const [XList, setXList] = useState([]);
+
     function menuHide() {
         if (hideOrNot[0] === "hide") {
             document.getElementsByClassName("menuBar")[0].style.display = "flex";
@@ -268,8 +270,10 @@ const Header = () => {
         });
     })
     Socket.on("getTimeToStart", data => {
+        try{
         document.getElementById("multiplier").innerText = "game starts in " + data
         document.getElementById("multiplier").style.color = "orange"
+        }catch(e){}
     })
 
     const addBet1 = () => {
@@ -386,7 +390,7 @@ const Header = () => {
     return (
         <div className={"total2"}>
             <div className="first">
-            <MenuOriginal/>
+            <MenuOriginal prp={props.onClick}/>
             <MenuHistory/>
                     <ToastContainer closeButton={false} autoClose={2}  style={{display:"none"}}/>
                 <div className="form">
