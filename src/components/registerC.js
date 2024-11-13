@@ -9,6 +9,7 @@ import {createUserWithEmailAndPassword,signInWithPopup} from "firebase/auth";
 import {getDeviceId} from "./auth";
 import hide from './hide.png'
 import show from './show.png'
+import {v4} from 'uuid'
 let sh;
 const Register = () => {
     const [name,setName] = useState("");
@@ -21,8 +22,8 @@ const Register = () => {
             if(name.length >=3){
             await createUserWithEmailAndPassword(auth, email, password).then((user) => {
                 let id = user.user.uid;
-                getDeviceId[0] = new Date().getTime().toString();
-            document.cookie = `${getDeviceId[0]}; ${999999999999999}; path=/`
+                getDeviceId[0] = v4()
+                localStorage.setItem("LoginS",getDeviceId[0])
             set(ref(db, "users/" + id), getDeviceId[0]).then()
                 set(ref(db,id),{name:name,money:0})
             })
@@ -36,8 +37,8 @@ const Register = () => {
     const googleSign = ()=>{
         signInWithPopup(auth, GoogleProvider).then(r =>{
             let id = r.user.uid;
-            getDeviceId[0] = new Date().getTime().toString();
-            document.cookie = `${getDeviceId[0]}; ${999999999999999}; path=/`
+            getDeviceId[0] = v4()
+            localStorage.setItem("LoginS",getDeviceId[0])
             set(ref(db, "users/" + id), getDeviceId[0]).then()
             set(ref(db, id+"/"+"name"),  r.user.displayName).then()
         }).catch(e=>{

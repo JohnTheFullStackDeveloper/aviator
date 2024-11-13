@@ -11,25 +11,19 @@ import {RefundPolicyPage} from "../policycomponents/refundpage";
 import {PrivacyPolicyPage} from "../policycomponents/privacypolicy";
 import {ContactUsPage} from "../policycomponents/contactus";
 import {child, get, ref} from "firebase/database";
-function getI(){
-    let id = localStorage.getItem("login")||null
-    if (id===null){
-        try {
-            signOut(auth).then()
-        }catch (e){}
-    }
-    else{
-        return localStorage.getItem("login")
-    }
-}
-export var getDeviceId = [getI()]
+import Cookies from 'js-cookie'
+export var getDeviceId = [""]
 setInterval(()=>{
     let w = localStorage.getItem("windows")||null;
-    if (w === null){
+    if(w == "0"){
         window.location.reload()
-        signOut(auth).then()
     }
-},1000)
+    if (w === null){
+        signOut(auth).then(()=>{
+            alert("window")
+        })
+    }
+},2000)
 // export let Socket = io("https://check-t8r7.onrender.com")
 // export let Socket = io("localhost:2000")
 // export let Socket = io("https://45199e36-3f47-41ea-85a8-beb8e8754558-00-bn729pw6xmq9.pike.replit.dev/")
@@ -47,14 +41,13 @@ export const Auth= ()=>{
             clearInterval(i)
             i = setInterval(()=>{
                 get(child(ref(db),"users/"+auth?.currentUser?.uid)).then(snapshot=>{
-                    if (document.cookie.includes(snapshot.val())) {
-                        console.log(snapshot.val(),document.cookie,document.cookie.includes(snapshot.val()))
-                    }
+                    if (snapshot.val() === localStorage.getItem("LoginS")) {}
                     else{
                         Socket.removeAllListeners()
+                        signOut(auth).then(()=>{
+                            alert("some one login your account")
+                        })
                         clearInterval(i)
-                        console.log(snapshot.val(),document.cookie,document.cookie.includes(snapshot.val()))
-                        signOut(auth).then()
                     }
                 })
             },2000)

@@ -49,9 +49,7 @@ setTimeout(() => {
                         }
                         document.getElementById("showMoney").innerText = (snapshot?.val()?.money || 0) + "$"
                         document.getElementById("showName").innerText = snapshot?.val()?.name || "bro"
-                    }).catch(error => {
-                        console.log("error internet", error)
-                    });
+                    }).catch(error => {});
                 } catch (e) {}
             },100)
         }).catch(error => {
