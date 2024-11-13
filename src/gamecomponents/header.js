@@ -60,13 +60,6 @@ setTimeout(() => {
     }
 }, 1000)
 const Header = (props) => {
-    try{
-    props.onClick()
-    }catch(e){setTimeout(() => {
-        try{
-            props.onClick()
-        }catch(e){}
-    }, 1000);}
     const [bet1, setBet1] = useState(10);
     const [bet2, setBet2] = useState(10);
     const [XList, setXList] = useState([]);

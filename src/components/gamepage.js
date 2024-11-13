@@ -21,12 +21,17 @@ const GamePage = () => {
       setPressed(false);
     }
   }
-  if (a) {
-    setTimeout(() => {
-      press();
-    }, 3000);
-    a = false;
+  function set(){
+    if(localStorage.getItem("page")=="d"){
+        setPressed(false)
+    }
+    else{
+        setPressed(true)
+    }
   }
+  setTimeout(() => {
+    set()    
+  }, 10);
   // true or false // change component
   const component = pressed ? (
     <Header onClick={press} />
