@@ -18,7 +18,8 @@ export const MenuOriginal = (props) => {
                 <img src={wrong} width={20}/></div>
             <div className={"menuBar-e"} onClick={()=>{hideHistory();getHistory()}}>bet history</div>
             <div className={"line"}></div>
-            <div className={"menuBar-e"} onClick={()=>{props.prp();Socket.removeAllListeners();}}>diposit</div>
+            <div className={"menuBar-e"} onClick={()=>{props.prp();Socket.removeAllListeners();}}>deposit
+            </div>
             <div className={"line"}></div>
             <div className={"menuBar-e"}>withdraw</div>
             <div className={"line"}></div>

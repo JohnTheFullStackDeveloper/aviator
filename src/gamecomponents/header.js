@@ -60,11 +60,34 @@ setTimeout(() => {
     }
 }, 1000)
 const Header = (props) => {
+    try{
     props.onClick()
+    }catch(e){setTimeout(() => {
+        try{
+            props.onClick()
+        }catch(e){}
+    }, 1000);}
     const [bet1, setBet1] = useState(10);
     const [bet2, setBet2] = useState(10);
     const [XList, setXList] = useState([]);
-
+    let i0 ;
+    try{
+    clearInterval(i0)
+    }catch(e){}
+    i0= setInterval(()=>{
+        try {
+            get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
+                let mvalue = snapshot.val()?.money;
+                if(mvalue == undefined){
+                    document.getElementById("showMoney").innerText = 0+"$"
+                }else{
+                document.getElementById("showMoney").innerText = mvalue + "$"
+                }
+                document.getElementById("showMoney").innerText = (snapshot?.val()?.money || 0) + "$"
+                document.getElementById("showName").innerText = snapshot?.val()?.name || "bro"
+            }).catch(error => {clearInterval(i0)});
+        } catch (e) {}
+    },100)
     function menuHide() {
         if (hideOrNot[0] === "hide") {
             document.getElementsByClassName("menuBar")[0].style.display = "flex";
