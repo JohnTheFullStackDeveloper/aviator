@@ -9,7 +9,15 @@ import { Deposit } from "./deposit";
 let a = true;
 const GamePage = () => {
   // create pressed state
-  const [pressed, setPressed] = useState(true);
+    let z;
+    if(localStorage.getItem("page")=="d"){
+        z = false
+    }
+    else{
+        z = true
+    }
+
+  const [pressed, setPressed] = useState(z);
 
   // onClick() function
   function press() {
@@ -21,17 +29,7 @@ const GamePage = () => {
       setPressed(false);
     }
   }
-  function set(){
-    if(localStorage.getItem("page")=="d"){
-        setPressed(false)
-    }
-    else{
-        setPressed(true)
-    }
-  }
-  setTimeout(() => {
-    set()    
-  }, 10);
+
   // true or false // change component
   const component = pressed ? (
     <Header onClick={press} />
