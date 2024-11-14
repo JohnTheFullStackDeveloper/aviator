@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/aviator/static/css/main.b589c32c.css",
-    "main.js": "/aviator/static/js/main.5420c0b3.js",
+    "main.js": "/aviator/static/js/main.d6440797.js",
     "static/js/206.b6ec11cd.chunk.js": "/aviator/static/js/206.b6ec11cd.chunk.js",
     "static/media/hide.png": "/aviator/static/media/hide.54b3107d160578572bcc.png",
     "static/media/show.png": "/aviator/static/media/show.180932f866861728bd41.png",
@@ -9,6 +9,6 @@
   },
   "entrypoints": [
     "static/css/main.b589c32c.css",
-    "static/js/main.5420c0b3.js"
+    "static/js/main.d6440797.js"
   ]
 }
