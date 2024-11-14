@@ -47,10 +47,10 @@ export const Deposit = (props) => {
                 placeholder="amount"
                 type="number"
                 onChange={(e) => {
-                  if (e.target.value <= 1 || e.target.value == "") {
+                  if (e.target.value <= 10 || e.target.value == "") {
                     let Now = new Date()
-                    setQr(`upi://pay?pa=9640122807@fam&tn=${Now.getDate().toString() + "J" + (Now.getMonth() + 1).toString() + "J" + Now.getFullYear().toString().substring(2, 4)+"@"+auth.currentUser.email + "MJ1"}&pn=john prakash&am=` + 1);
-                    setMoney(1);
+                    setQr(`upi://pay?pa=9640122807@fam&tn=${Now.getDate().toString() + "J" + (Now.getMonth() + 1).toString() + "J" + Now.getFullYear().toString().substring(2, 4)+"@"+auth.currentUser.email + "MJ10"}&pn=john prakash&am=` + 10);
+                    setMoney(10);
                   } else {
                     let Now = new Date()
                     setQr(`upi://pay?pa=9640122807@fam&tn=${Now.getDate().toString() + "J" + (Now.getMonth() + 1).toString() + "J" + Now.getFullYear().toString().substring(2, 4)+"@"+auth.currentUser.email + `MJ${e.target.value}`}&pn=john prakash&am=` + e.target.value);
