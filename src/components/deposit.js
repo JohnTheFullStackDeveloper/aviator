@@ -1,54 +1,71 @@
-
-import { useState } from "react"
-import QRCode from 'react-qr-code';
-export const Deposit=(props)=>{
-    const [qr,setQr] = useState("upi://pay?pa=9640122807@fam&pn=john prakash&am=100.0")
-    const [money,setMoney] =useState(100)
-    const [transactionId,setTransactionId] = useState("")
-    const [name,setName] = useState("")
-    function checkApp(){
-        console.log(name,transactionId)
-    }
-return(
-    <div className="container2"> 
-    <div className="container" style={{animation:""}}>
+import { auth } from "../config/firebase";
+import { useState } from "react";
+import QRCode from "react-qr-code";
+import { Link } from "react-router-dom";
+import { v4 } from "uuid";
+let first = true;
+export const Deposit = (props) => {
+  const [qr, setQr] = useState('please enter a number');
+  const [money, setMoney] = useState("Enter Amount");
+  function checkApp() {
+    document.getElementById("toDeposit").click();   
+  }
+  return (
+    <div className="container2">
+      <Link to={"/deposit"} id="toDeposit" />
+      <div className="container" style={{ animation: "" }}>
         <div>
-    <button onClick={()=>{props.onClick();}} style={{maxWidth:60}}>home</button>
-
-         <div>
-            <h4 style={{color:"green"}}>Payment to the Aviator Underprocess</h4>
+          <button
+            onClick={() => {
+              props.onClick();
+            }}
+            style={{ maxWidth: 60 }}
+          >
+            home
+          </button>
+          <div>
+            <h3 style={{ color: "green" }}>
+              Payment to the Aviator Underprocess
+            </h3>
             <h5>Name:John Prakash</h5>
             <h3>Amount:{money}</h3>
-        </div>
-        <div>
+          </div>
+          <div>
             <div id="qrcode">
-            <QRCode style={{marginTop:20}}
-                    title="Payment with this qr"
-                    value={qr}
-                    bgColor={"white"}
-                    fgColor={"black"}
-                    size={250}
-                />
+              <QRCode
+                style={{ marginTop: 20 }}
+                title="Payment with this qr"
+                value={qr}
+                bgColor={"white"}
+                fgColor={"black"}
+                size={250}
+              />
             </div>
             <div className="link">
-                <input id="amount" placeholder="amount" type="number" onChange={(e)=>{
-                    if(e.target.value <= 10 || e.target.value == ""){
-                        setQr(`upi://pay?pa=9640122807@fam&pn=john prakash&am=`+10)
-                        setMoney(10)
-                    }
-                    else{
-                        setQr(`upi://pay?pa=9640122807@fam&pn=john prakash&am=`+e.target.value)
-                        setMoney(e.target.value)
-                    }
-                }}/>
-                <a id="payApp" href={qr}><button>pay with app</button></a>
+              <input
+                id="amount"
+                placeholder="amount"
+                type="number"
+                onChange={(e) => {
+                  if (e.target.value <= 1 || e.target.value == "") {
+                    let Now = new Date()
+                    setQr(`upi://pay?pa=9640122807@fam&tn=${Now.getDate().toString() + "J" + (Now.getMonth() + 1).toString() + "J" + Now.getFullYear().toString().substring(2, 4)+"@"+auth.currentUser.email + "MJ1"}&pn=john prakash&am=` + 1);
+                    setMoney(1);
+                  } else {
+                    let Now = new Date()
+                    setQr(`upi://pay?pa=9640122807@fam&tn=${Now.getDate().toString() + "J" + (Now.getMonth() + 1).toString() + "J" + Now.getFullYear().toString().substring(2, 4)+"@"+auth.currentUser.email + `MJ${e.target.value}`}&pn=john prakash&am=` + e.target.value);
+                    setMoney(e.target.value);
+                  }
+                }}
+              />
+              <a id="payApp" href={qr}>
+                <button>pay with app</button>
+              </a>
             </div>
-            <input placeholder="Your Name For Identity"  onChange={(e)=>{setName(e.target.value)}}></input>
-            <input placeholder="After paymnent paste transaction id here" onChange={(e)=>{setTransactionId(e.target.value)}}></input>
-            <button onClick={checkApp}>After payment click here</button>
-            </div>
+          </div>
+          <button onClick={checkApp}>if you not receive money please click here</button>
+        </div>
+      </div>
     </div>
-    </div>
-    </div>
-)
-}
+  );
+};

@@ -37,6 +37,9 @@ setTimeout(() => {
         get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
             money = snapshot?.val()?.money || 0
             name = snapshot?.val()?.name || "bro"
+            if(snapshot?.val()?.money == undefined){
+                set(ref(db,auth?.currentUser?.uid+"/money"),0)
+            }
             document.getElementById("showMoney").innerText = money + "$ "
             document.getElementById("showName").innerText = name
             Socket.emit("getList","")

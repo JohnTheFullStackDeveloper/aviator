@@ -537,12 +537,15 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
-.container2{
+.container2,.container3{
     height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     scale: 0.87;
+}
+.container3{
+    scale: 1;
 }
 .link{
     display: flex;

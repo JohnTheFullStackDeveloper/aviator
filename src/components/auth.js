@@ -14,6 +14,7 @@ import {child, get, ref} from "firebase/database";
 import Cookies from 'js-cookie'
 import { Deposit } from './deposit.js';
 import GamePage from './gamepage.js';
+import { Deposits } from './deposits.js';
 export var getDeviceId = [""]
 setInterval(()=>{
     let w = localStorage.getItem("windows")||null;
@@ -46,10 +47,9 @@ export const Auth= ()=>{
                     if (snapshot.val() === localStorage.getItem("LoginS")) {}
                     else{
                         Socket.removeAllListeners()
-                        signOut(auth).then(()=>{
-                            alert("some one login your account")
-                        })
+                        signOut(auth).then(()=>{})
                         clearInterval(i)
+                        alert("some one login your account")    
                     }
                 })
             },2000)
@@ -63,12 +63,12 @@ export const Auth= ()=>{
                 <Route path="/aviator" element={<GamePage/>}/>
                 <Route path="/login" element={<Login/>} />
                 <Route path="/register" element={<Register/>} />
+                <Route path="/deposit" element={<Deposits/>} />
                 <Route path="/terms" element={<TermsPage/>} />
-                
                 <Route path="/refund-policy" component={<RefundPolicyPage/>} />
                 <Route path="/privacy-policy" component={<PrivacyPolicyPage/>} />
                 <Route path="/contact-us" component={<ContactUsPage/>} />
-                <Route path="*" element={<Header/>} />
+                <Route path="*" element={<GamePage/>} />
             </Routes>
         </HashRouter>
     )
