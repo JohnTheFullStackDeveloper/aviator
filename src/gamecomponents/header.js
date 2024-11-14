@@ -39,20 +39,7 @@ setTimeout(() => {
             name = snapshot?.val()?.name || "bro"
             document.getElementById("showMoney").innerText = money + "$ "
             document.getElementById("showName").innerText = name
-            let i0 = setInterval(()=>{
-                try {
-                    get(child(ref(db), auth?.currentUser?.uid)).then(snapshot => {
-                        let mvalue = snapshot.val()?.money;
-                        if(mvalue == undefined){
-                            document.getElementById("showMoney").innerText = 0+"$"
-                        }else{
-                        document.getElementById("showMoney").innerText = mvalue + "$"
-                        }
-                        document.getElementById("showMoney").innerText = (snapshot?.val()?.money || 0) + "$"
-                        document.getElementById("showName").innerText = snapshot?.val()?.name || "bro"
-                    }).catch(error => {});
-                } catch (e) {}
-            },100)
+            Socket.emit("getList","")
         }).catch(error => {
             console.log("error internet", error)
         });
@@ -271,7 +258,6 @@ const Header = (props) => {
             }
         }
     }
-
     Socket.on("getList", list => {
         let a = []
         list.forEach(element => {
