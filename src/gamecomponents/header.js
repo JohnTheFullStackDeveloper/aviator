@@ -349,9 +349,11 @@ const Header = (props) => {
                 } catch (e) {
                 }
                 if (bet1Placed) {
+                    Socket.emit("placedBet", -bet1PlacedMoney)
                     set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName + "1/goneAt"), latestX).then()
                 }
                 if (bet2Placed) {
+                    Socket.emit("placedBet", -bet2PlacedMoney)
                     set(ref(db, auth?.currentUser?.uid + "/history/" + RoundName + "2/goneAt"), latestX).then()
                 }
                 playing = false
