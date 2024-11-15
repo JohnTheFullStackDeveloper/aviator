@@ -2,10 +2,8 @@ import { auth } from "../config/firebase";
 import { useState } from "react";
 import QRCode from "react-qr-code";
 import { Link } from "react-router-dom";
-import { v4 } from "uuid";
-let first = true;
 export const Deposit = (props) => {
-  const [qr, setQr] = useState('please enter a number');
+  const [qr, setQr] = useState("John");
   const [money, setMoney] = useState("Enter Amount");
   function checkApp() {
     document.getElementById("toDeposit").click();   
@@ -25,7 +23,7 @@ export const Deposit = (props) => {
           </button>
           <div>
             <h3 style={{ color: "green" }}>
-              Payment to the Aviator Underprocess
+              Payment to the Aviator
             </h3>
             <h5>Name:John Prakash</h5>
             <h3>Amount:{money}</h3>
@@ -58,9 +56,6 @@ export const Deposit = (props) => {
                   }
                 }}
               />
-              <a id="payApp" href={qr}>
-                <button>pay with app</button>
-              </a>
             </div>
           </div>
           <button onClick={checkApp}>if you not receive money please click here</button>

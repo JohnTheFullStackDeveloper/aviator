@@ -70,9 +70,6 @@ body {
     border: black 1px solid;
     width: 90%;
 }
-#payApp{
-    display: none;
-}
 @media (min-width: 500px) {
     body{
         background-color: white;
@@ -131,7 +128,6 @@ body {
     /*}*/
     #amount{
         border: black 1px solid;
-        width: 40%;
     }
     #payApp{
         display: inline;
