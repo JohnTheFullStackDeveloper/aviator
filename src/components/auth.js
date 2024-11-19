@@ -65,9 +65,9 @@ export const Auth= ()=>{
                 <Route path="/register" element={<Register/>} />
                 <Route path="/deposit" element={<Deposits/>} />
                 <Route path="/terms" element={<TermsPage/>} />
-                <Route path="/refund-policy" component={<RefundPolicyPage/>} />
-                <Route path="/privacy-policy" component={<PrivacyPolicyPage/>} />
-                <Route path="/contact-us" component={<ContactUsPage/>} />
+                <Route path="/refund-policy" element={<RefundPolicyPage/>} />
+                <Route path="/privacy-policy" element={<PrivacyPolicyPage/>} />
+                <Route path="/contact-us" element={<ContactUsPage/>} />
                 <Route path="*" element={<GamePage/>} />
             </Routes>
         </HashRouter>

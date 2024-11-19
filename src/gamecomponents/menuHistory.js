@@ -1,10 +1,8 @@
 import img from "./signout.png";
 import wrong from "./worng.png";
 import { hideHistoryOrNot, hideOrNot } from "./header";
-import { useEffect } from "react";
 import { child, get, ref, set } from "firebase/database";
 import { auth, db } from "../config/firebase.js";
-import { history } from "./MenuOriginal.js";
 export function getHistory() {
   get(child(ref(db), auth?.currentUser?.uid + "/history")).then((snapshot) => {
     document.getElementById("allHistory").innerHTML = "";

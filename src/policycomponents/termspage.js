@@ -2,7 +2,7 @@ export const TermsPage=()=>{
     return (
         <div>
         <h1>Terms and Conditions</h1>
-    <p>Welcome to [Your Website]. By using this website, you agree to the following terms and conditions:</p>
+    <p>Welcome to aviator. By using this website, you agree to the following terms and conditions:</p>
     <ul>
         <li><strong>Usage Rights</strong>: You may use the website only for lawful purposes.</li>
         <li><strong>Intellectual Property</strong>: All content on the website, including text, images, and logos, are
